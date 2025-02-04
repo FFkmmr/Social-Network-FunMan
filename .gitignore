@@ -1,0 +1,29 @@
+# Виртуальное окружение
+venv/
+env/
+
+# Файлы кэша
+__pycache__/
+*.pyc
+*.pyo
+
+# Конфиденциальные данные
+*.env
+*.sqlite3
+/secrets.json
+
+# Логи и дампы
+logs/
+*.log
+*.out
+*.pid
+*.dump
+
+# Статические и медиа-файлы (если хранятся локально)
+staticfiles/
+media/
+
+# IDE и система
+.vscode/
+.idea/
+.DS_Store
