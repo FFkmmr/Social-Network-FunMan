@@ -2,6 +2,9 @@
 venv/
 env/
 
+#
+FunMan/FunMan/passwords.py
+
 # Файлы кэша
 __pycache__/
 *.pyc
