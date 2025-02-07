@@ -1,0 +1,145 @@
+ *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Ligconsolata', monospace;
+  }
+    html, body {
+  height: 100%;
+  width: 100%;
+  font-family: sans-serif;
+  background-color: #2C2C2C;
+  }
+  img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  }
+  button, input, select, textarea {
+  font: inherit;
+  }
+  a {
+  text-decoration: none;
+  color: inherit;
+  }
+
+
+.rw-block {
+  background-color: #2C2C2C;
+  position: absolute;
+  display: flex;
+  min-height: 550px;
+  min-width: 900px;
+  height: 65%;
+  width: 70%;
+  transform: translate(20%, 22%);
+}
+
+.logo-hp {
+  order: 1; 
+  height: 100%;
+  width: 45%;
+  min-width: 500px;
+}
+.reg-block-hp {
+  order: 2; 
+  height: 100%;
+  width: 50%;
+  right: 0px;
+  margin-left: auto;
+}
+.reg-block-hp h1 {
+  color: white;
+  font-size: 51px;
+  font-weight: 600;
+}
+.text-area-hp {
+  margin: 0px 30px;
+}
+.reg-block-hp .txt-pricol {
+  color: white;
+  font-weight: 100;
+  font-size: 31px;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+/* btn */
+.wgoogle {
+  display: flex;
+  width: 270px;
+  height: 45px;
+  text-align: center;
+  border-radius: 50px;
+  margin-bottom: 10px;
+}
+.wgoogle img {
+  position: relative;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  margin: auto 0;
+}
+.wgoogle p {
+  position: relative;
+  width: 80%;
+  font-size: 18px;
+  align-content: center;
+}
+.wgithub {
+  display: flex;
+  width: 270px;
+  height: 45px;
+  text-align: center;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+.wgithub img {
+  position: relative;
+  left: 10px;
+  width: 35px;
+  height: 35px;
+  margin: auto 0;
+}
+.wgithub p {
+  position: relative;
+  width: 80%;
+  font-size: 18px;
+  align-content: center;
+}
+.hr-hp {
+  position: relative;
+  display: flex;
+  margin-top: 25px;
+  margin-bottom: 8px;
+}
+.hr-hp hr {
+  width: 100px;
+  height: 0;
+  color: aliceblue;
+}
+.hr-hp p {
+  position: relative;
+  color: white;
+  font-size: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  top: -10px;
+}
+.hr-hp2 {
+  color: white;
+  font-size: 11px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+.reg, .log {
+  display: flex;
+  width: 270px;
+  height: 45px;
+  text-align: center;
+  border-radius: 50px;
+}
+.reg p, .log p {
+  position: relative;
+  width: 100%;
+  font-size: 18px;
+  align-content: center;
+}
