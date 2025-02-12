@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="{% static 'authorization/css/style.css' %}">
   <link href="https://fonts.googleapis.com/css2?family=Ligconsolata:wght@300;400;700&display=swap" rel="stylesheet">
-  <title>Hallo page</title>
+  <title></title>
 </head>
 <body>
   <div class="rw-block">
@@ -27,15 +27,15 @@
           <img src="{% static 'authorization/img/v44_5.png' %}" alt="">
           <p>With GitHub</p>
         </button>
-        <div class="hr-hp">
+        <div class="line-or">
           <hr> <p>or</p> <hr>
         </div>
         <button class="reg">
           <p>Registration</p>
         </button>
-        <div class="hr-hp2">
+        <div class="line-or2">
           <p style="font-size: 16px; font-weight: 100;">By registering you accept the</p> 
-          <div style="font-size: 16px; letter-spacing: 3px; font-weight: 900;"><a href="rules.html">rules of the community</a></div><br><br><br><br>
+          <div style="font-size: 16px; letter-spacing: 3px; font-weight: 900;"><a href="{% url 'rules' %}">rules of the community</a></div><br><br><br><br>
           <p style="font-size: 24px;">Registered already?</p>
         </div>
         <button class="log">
@@ -44,5 +44,9 @@
       </div>
     </div>
   </div>
+
+      {% block content %}
+      {% endblock %}
+      <script src="{% static 'authorization/js/script.js' %}"></script>
 </body>
 </html>

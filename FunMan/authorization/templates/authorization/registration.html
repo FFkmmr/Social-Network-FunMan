@@ -1,0 +1,27 @@
+{% extends 'authorization/index.html' %}
+{% load static %}
+
+{% block content %} 
+<div class="blure-reg-wind">
+</div>
+<div class="reg-wind">
+  <div style="width: 100%;">
+      
+    <button class="back-button closebtn-index">
+          <img src="{% static 'authorization/img/close-button.png' %}" alt="">
+      </button>
+
+      <img class="imglogo-hedder-of-reg" src="{% static 'authorization/img/v24_18.png' %}" alt="">
+  </div>
+  <h1>Create an account</h1>
+
+  <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+    <button type="submit" class="nextbtn">
+        <p>Next</p>
+    </button>
+  </form>
+  
+</div>
+{% endblock %}

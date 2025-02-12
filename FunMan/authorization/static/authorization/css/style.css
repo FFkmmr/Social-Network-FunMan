@@ -5,7 +5,7 @@
   font-family: 'Ligconsolata', monospace;
   }
     html, body {
-  height: 100%;
+  height: auto;
   width: 100%;
   font-family: sans-serif;
   background-color: #2C2C2C;
@@ -105,18 +105,18 @@
   font-size: 18px;
   align-content: center;
 }
-.hr-hp {
+.line-or {
   position: relative;
   display: flex;
-  margin-top: 25px;
-  margin-bottom: 8px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
-.hr-hp hr {
+.line-or hr {
   width: 100px;
   height: 0;
   color: aliceblue;
 }
-.hr-hp p {
+.line-or p {
   position: relative;
   color: white;
   font-size: 20px;
@@ -124,22 +124,270 @@
   margin-right: 20px;
   top: -10px;
 }
-.hr-hp2 {
+.line-or2 {
   color: white;
   font-size: 11px;
   margin-top: 5px;
   margin-bottom: 20px;
 }
-.reg, .log {
+.log, .reg {
   display: flex;
   width: 270px;
   height: 45px;
   text-align: center;
   border-radius: 50px;
 }
-.reg p, .log p {
+.log p, .reg  p {
   position: relative;
   width: 100%;
   font-size: 18px;
   align-content: center;
+}
+header {
+  position: fixed;
+  display: flex;
+  background-color: #313131;  
+  width: 100%;
+  height: 90px;
+  top: 0;
+}
+header img {
+  position: relative;
+  margin: 10px 40px;
+  width: 70px;
+  height: 70px;
+}
+header p {
+  position: relative;
+  top: 35%;
+  color: white;
+  font-size: 18px;
+  height: 50px;
+}
+header button {
+  position: absolute;
+  right: 0;
+  background-color: #313131;
+  margin: 20px 100px;
+  border-radius: 50px;
+  border-color: white;
+  width: 180px;
+  height: 50px;
+}
+header button p {
+  position: relative;
+  color: rgb(255, 255, 255);
+  top: 2%;
+  height: 25px;
+}
+/* rules */
+.body-rules {
+  position: absolute;
+  display: flex;
+  margin-top: 90px; 
+  justify-content: center; 
+  align-items: center;
+}
+.main-rules {
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  height: 100%;
+
+  align-items: center;
+}
+.main-rules h1 {
+  color: white;
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 25px;
+  font-size: 64px;
+  letter-spacing: 3px;
+}
+.main-rules p1 {
+  color: #959595;
+  margin-bottom: 80px;
+  font-size: 20px;
+  width: 100%;
+}
+.main-rules hr {
+  width: 95%;
+  color: #1E1E1E;
+}
+.main-rules h4 {
+  color: white;
+  font-size: 40px;
+  width: 100%;
+  font-weight: 100;
+  padding-left: 5%;
+  margin: 25px 0;
+}
+.main-rules p {
+  font-size: 18px;
+  font-weight: 100;
+  color: white;
+  width: 100%;
+  padding-left: 9%;
+  margin-bottom: 50px;
+  letter-spacing: 2px;
+  line-height: 28px;
+}
+.main-rules h2 {
+  color: white;
+  width: 100%;
+  margin-top: 60px;
+  margin-bottom: 80px;
+  font-size: 35px;
+  letter-spacing: 3px;
+  padding-left: 5%;
+}
+.main-rules h3 {
+  color: white;
+  width: 100%;
+  font-weight: 100;
+  margin-bottom: 15px;
+  font-size: 25px;
+  padding-left: 5%;
+}
+.txt-rules {
+  width: 80%;
+}
+.main-rules hh1 {
+  color: #FFABAB;
+  width: 100%;
+  margin-bottom: 0px;
+  font-size: 35px;
+  margin-top: 45px;
+  padding-left: 5%;
+}
+.main-rules hh2 {
+  color: #ffffff;
+  width: 100%;
+  margin-bottom: 30px;
+  font-size: 28px;
+  margin-top: 45px;
+  padding-left: 7%;
+}
+.main-rules ul {
+  color: white;
+  width: 100%;
+  padding-left: 9%;
+  font-weight: 100;
+  line-height: 1.5; 
+
+  margin-bottom: 470px;
+}
+.footer {
+  position: absolute;
+  display: flex;
+  background-color: #313131;
+  height: 80px;
+  width: 100%;
+  bottom: 0%;
+  justify-content: center;
+  align-items: center;
+  gap: 35px
+}
+/* registration */
+.blure-reg-wind {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #171717;
+  opacity: 0.9;
+}
+.reg-wind {
+  position: absolute;
+  display: flex;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  background-color: #2C2C2C;
+  width: 685px;
+  height: 660px;
+  z-index: 100;
+  border-radius: 22px;
+  color: white;
+  flex-direction: column;
+  align-items: center;
+}
+/* close button */
+.back-button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  float: right;
+  border-radius: 100%;
+  background-color: #2C2C2C;
+  top: 25%;
+  right: 3%;
+}
+.back-button img {
+  position: relative;
+  filter: brightness(0) invert(1);
+  width: 20px;
+  height: 20px;
+}
+/* logo */
+.imglogo-hedder-of-reg {
+  position: relative;
+  width: 70px; 
+  height: 70px;
+  left: 50%;
+  transform: translate(-50%);
+}
+.reg-wind h1 {
+  padding-top: 10px;
+  padding-bottom: 25px;
+  font-weight: 100;
+  font-size: 36px;
+}
+.reg-wind input {
+  background-color: #2C2C2C;
+  color: #ffffff;
+  border: 1px solid #787878;
+  border-radius: 5px;
+  width: 290px;
+  height: 40px;
+  padding: 10px;
+  margin: 5px;
+}
+.nextbtn, .fgt-password {
+  display: flex;
+  width: 270px;
+  height: 45px;
+  font-size: 18px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  margin-top: 25px;
+}
+.fgt-password {
+  margin-top: 15px;
+  color: white;
+  background-color: #2C2C2C;
+  border: 1px solid #ffffff;
+}
+#reg-birthdate {
+  color: white;
+  margin-top: 5px;
+  margin-bottom: 50px;
+}
+.reg-wind p2 {
+  font-size: 13px;
+  width: 300px;
+  color: #787878;
+  font-weight: 100;
+  line-height: 1; 
+}
+.reg-wind h3 {
+  width: 300px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+.reg-wind form {
+  width: 300px;
 }
