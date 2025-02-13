@@ -5,7 +5,7 @@
   font-family: 'Ligconsolata', monospace;
   }
     html, body {
-  height: auto;
+  height: 100%;
   width: 100%;
   font-family: sans-serif;
   background-color: #2C2C2C;
@@ -390,4 +390,78 @@ header button p {
 }
 .reg-wind form {
   width: 300px;
+}
+.home-page {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: #2C2C2C;
+  justify-content: center;
+  align-items: center;
+}
+.home-logo {
+  height: 90px;
+  width: 95px;
+}
+.home-left-block {
+  display: flex;
+  height: 100%;
+  width: 230px;
+  background-color: #2C2C2C;
+  align-items: center;
+  flex-flow: column;
+  border-right: 2px solid #202020;
+  padding-right: 20px;
+}
+.nav-btn {
+  all: unset;
+  color: white;
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  border-radius: 50px;
+}
+.nav-btn img {
+  display: block;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+}
+.nav-btn p {
+  margin-left: 20px;
+  margin-right: 30px;
+}
+.nav-post-btn {
+  display: flex;
+  width: 100%;
+  height: 50px;
+  background-color: #282828;
+  justify-content: center;
+  margin-top: 50px;
+}
+.vis-nav-btn {
+  border-radius: 50px;
+  display: flex;
+  align-items: center; 
+  background-color: #282828;
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px;
+}
+
+
+
+
+
+
+.home-centre-block {
+  height: 100%;
+  width: 610px;
+  background-color: #2C2C2C;
+}
+.home-right-block {
+  height: 100%;
+  min-height: 400px;
+  width: 240px;
+  background-color: #2C2C2C;
 }
