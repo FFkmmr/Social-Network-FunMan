@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from .forms import RegistrationForm, SignInForm
 from django.contrib.auth import authenticate, login as auth_login
-from django.contrib.auth.decorators import login_required
 
 
 def authoriz_moment(request):
@@ -21,7 +21,7 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                return redirect('home')
+                return redirect(reverse('home'))
             else:
                 form.add_error(None, "Invalid username or password")
     else:
@@ -42,7 +42,3 @@ def registration(request):
     else:
         form = RegistrationForm()
     return render(request, "authorization/registration.html", {'form': form})
-
-@login_required
-def home(request):
-    return render(request, "authorization/home.html")
