@@ -1,0 +1,118 @@
+{% extends 'home/index.html' %}
+{% load static %}
+
+{% block title %} Bookmarks {% endblock %}
+
+{% block left-block %}
+<div class="home-left-block">
+    <img src="{% static 'home/img/v24_18.png' %}" alt="" class="home-logo">
+    <nav>
+        <button class="nav-btn" id="home">
+            <div class="vis-nav-btn">
+                <img src="{% static 'home/img/home-icon.png' %}" alt=""> 
+                <p>Home</p>
+            </div>
+        </button>
+        <button class="nav-btn" id="messages">
+            <div class="vis-nav-btn">
+                <img src="{% static 'home/img/messages-icon.png' %}" alt=""> 
+                <p>Messages</p>
+            </div>
+        </button>
+        <button class="nav-btn" id="profile">
+            <div class="vis-nav-btn">
+                <img src="{% static 'home/img/profile-icon.png' %}" alt=""> 
+                <p>Profile</p>
+            </div>
+        </button>
+        <button class="nav-btn" id="search">
+            <div class="vis-nav-btn">
+                <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
+                <p>Search</p>
+            </div>
+        </button>
+        <button class="nav-btn" id="bookmarks">
+            <div class="vis-nav-btn">
+                <img src="{% static 'home/img/bookmarks-icon.png' %}" alt=""> 
+                <p>Bookmarks</p>
+            </div>
+        </button>
+        <button class="nav-btn" id="community">
+            <div class="vis-nav-btn">
+                <img src="{% static 'home/img/community-icon.png' %}" alt=""> 
+                <p>Community</p>
+            </div>
+        </button>
+        <button class="nav-btn" id="lists">
+            <div class="vis-nav-btn">
+                <img src="{% static 'home/img/lists-icon.png' %}" alt=""> 
+                <p>Lists</p>
+            </div>
+        </button>
+        <button class="nav-btn" id="post" style="margin-top: 50px;">
+            <div class="vis-nav-btn" style="height: 50px; width: 100%;">
+                <p>Post</p>
+            </div>
+        </button>
+    </nav>
+    
+</div>
+{% endblock %}
+{% block center-block %}
+<div class="home-centre-block">
+    <div class="center-back-line">
+        <button class="circle-back-btn">
+            <img src="{% static 'home/img/back-btn.png' %}" class="back-btn" alt="">
+        </button>
+        <h4>Bookmarks</h4>
+    </div>
+    <search class="home-c-search-line">
+        <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
+        <p>Search...</p>
+    </search>
+    <h1 style="position: relative;color: white; top: 20%; left: 20px;">Save posts for later</h1>
+    <p style="position: relative;
+    width: 50%;
+    font-size: 12px;
+    color: #878787;
+    padding-bottom: 15px;
+    top: 22%;">Bookmark posts to easily find them again in the future.</p>
+
+</div>
+{% endblock %}
+{% block right-block %}
+<div class="home-right-block">
+    <search class="home-r-search-line">
+        <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
+        <p>Search...</p>
+    </search>
+    <div class="home-r-pinned-block">
+        <label>{ Pinned function }</label>
+        <img src="{% static 'home/img/pin-icon.png' %}" alt="">
+        <p>You can pin your <br>
+            desired tab, chats, or <br> 
+            notifications.</p>
+    </div>
+    <div class="home-r-recomendations">
+        <h3>Popular Authors</h3>
+        <div class="rec-card">
+            <img src="{% static 'home/img/camera.png' %}" alt="">
+            <h5>Popular Author_1 <br>
+            <p>AI, Anime, Physical...</p></h5>
+            <img src="{% static 'home/img/eye-icon.png' %}" alt="" class="eye-icon">
+        </div>
+        <div class="rec-card">
+            <img src="{% static 'home/img/camera.png' %}" alt="">
+            <h5>Popular Author_1 <br>
+            <p>AI, Anime, Physical...</p></h5>
+            <img src="{% static 'home/img/eye-icon.png' %}" alt="" class="eye-icon">
+        </div>
+        <div class="rec-card">
+            <img src="{% static 'home/img/camera.png' %}" alt="">
+            <h5>Popular Author_1 <br>
+            <p>AI, Anime, Physical...</p></h5>
+            <img src="{% static 'home/img/eye-icon.png' %}" alt="" class="eye-icon">
+        </div>
+    </div>
+</div>
+{% endblock %}

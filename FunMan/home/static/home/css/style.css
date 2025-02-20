@@ -84,85 +84,6 @@
 .vis-nav-btn:active {
   background-color: #181818;
 }
-/* =============================================== */
-.home-centre-block {
-  height: 100%;
-  width: 610px;
-  background-color: #2C2C2C;
-}
-.post_type--toggle {
-  display: flex;
-  width: 100%;
-  height: 50px;
-}
-.post_type--toggle button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  width: 50%;
-  height: 100%;
-  background-color: #282828;
-  color: #8B8B8B;
-}
-.post_type--toggle .active-btn {
-  background-color: #202020;
-  color: white;
-  font-weight: bold;
-}
-.centre-post-create {
-  height: fit-content;
-  width: 100%;
-  display: flex;
-  flex-flow: column;
-  padding-bottom: 15px;
-  border-bottom: 3px solid #202020;
-}
-.first-part-ofpostcre {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-}
-.first-part-ofpostcre img {
-  height: 51px;
-}
-.first-part-ofpostcre p {
-  padding-left: 20px;
-  color: #8B8B8B;
-  font-size: 18px;
-}
-.second-part-ofpostcre {
-  display: flex;
-  width: 100%;
-  height: fit-content;
-}
-.second-part-ofpostcre button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: 32px;
-  border-radius: 50px;
-  width: 75px;
-  height: 32px;
-  background-color: #878787;
-}
-.additional-bar {
-  display: flex;
-  width: fit-content;
-  height: fit-content;
-  margin-left: 85px;
-}
-.additional-bar img {
-  height: 18px;
-  margin: 7px;
-}
-
-
-
-
-
-/* =============================================== */
 .home-right-block {
   height: 100%;
   width: 240px;
@@ -170,7 +91,7 @@
   border-left: 4px solid #202020;
   padding-left: 20px;
 }
-.home-r-search-line {
+.home-r-search-line, .home-c-search-line {
   color: #8B8B8B;
   display: flex;
   height: fit-content;
@@ -181,11 +102,13 @@
   margin-top: 10px;
   margin-bottom: 50px;
 }
-.home-r-search-line img {
+.home-r-search-line img,
+.home-c-search-line img {
   border-radius: 50px;
   height: 40px;
 }
-.home-r-search-line p {
+.home-r-search-line p, 
+.home-c-search-line p {
   padding-left: 10px;
 }
 .home-r-pinned-block {
@@ -263,4 +186,117 @@
   width: 15px !important; 
   border-radius: 0; 
   margin-right: 5px;
+}
+.home-centre-block {
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+  height: 100%;
+  width: 610px;
+  background-color: #2C2C2C;
+}
+.post_type--toggle {
+  display: flex;
+  width: 100%;
+  height: 50px;
+}
+.post_type--toggle button {
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  width: 50%;
+  height: 100%;
+  background-color: #282828;
+  color: #8B8B8B;
+}
+.follow:hover {
+  background-color: #363636;
+}
+.post_type--toggle .active-btn {
+  background-color: #202020;
+  color: white;
+  font-weight: bold;
+}
+.centre-post-create {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #202020;
+}
+.first-part-ofpostcre {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+}
+.first-part-ofpostcre img {
+  height: 51px;
+}
+.first-part-ofpostcre p {
+  padding-left: 20px;
+  color: #8B8B8B;
+  font-size: 18px;
+}
+.second-part-ofpostcre {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+}
+.second-part-ofpostcre button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: 32px;
+  border-radius: 50px;
+  width: 75px;
+  height: 32px;
+  background-color: #878787;
+}
+.additional-bar {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  margin-left: 85px;
+}
+.additional-bar img {
+  height: 18px;
+  margin: 7px;
+}
+.additional-bar img {
+  user-select: none;
+}
+.center-back-line {
+  background-color: black;
+  height: 45px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.circle-back-btn {
+  background-color: rgb(0, 0, 0);
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 18px;
+}
+.back-btn {
+  height: 11px;
+  width: 13px;
+}
+.center-back-line h4 {
+  margin-left: 20px;
+  font-size: 15px;
+  color: white;
+  font-weight: 100;
+}
+.home-c-search-line {
+  width: 70%;
 }

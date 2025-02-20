@@ -1,0 +1,19 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'authorization/img/favicon.ico' %}"> 
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body class="home-page">
+    {% block left-block %}    {% endblock %}
+    {% block center-block %}    {% endblock %}
+    {% block right-block %}    {% endblock %}
+    
+<script src="{% static 'home/js/script.js' %}"></script>
+</body>
+</html>

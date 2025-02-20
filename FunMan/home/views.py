@@ -10,7 +10,12 @@ def home(request):
 
 @login_required
 def profile(request):
-    return render(request, "home/profile.html")
+    user = request.user
+    
+    context = {
+        "user" : user
+    }
+    return render(request, "home/profile.html", context)
 
 
 @login_required
@@ -19,7 +24,7 @@ def bookmarks(request):
 
 
 @login_required
-def communities(request):
+def community(request):
     return render(request, "home/communities.html")
 
 
