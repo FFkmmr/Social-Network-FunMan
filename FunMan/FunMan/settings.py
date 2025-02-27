@@ -27,7 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ckeditor',
+    'taggit',
     'authorization',
     'home',
 ]
@@ -129,4 +129,4 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', 
 ]
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/authorization/'

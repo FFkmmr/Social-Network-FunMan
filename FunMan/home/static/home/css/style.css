@@ -191,9 +191,18 @@
   display: flex;
   align-items: center;
   flex-flow: column;
+  overflow: auto;
+  overflow-x: hidden;
   height: 100%;
   width: 610px;
   background-color: #2C2C2C;
+}
+.home-centre-block::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+.home-centre-block::-webkit-scrollbar-thumb {
+  background: transparent;
 }
 .post_type--toggle {
   display: flex;
@@ -300,3 +309,109 @@
 .home-c-search-line {
   width: 70%;
 }
+.background-profile {
+  position: relative;
+  width: 100%;
+  min-height: 125px;
+  height: 135px;
+  background-color: #353535;
+}
+.profile-and-edit-profile {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 45px;
+  height: 80px;
+}
+.avatar-in-profile {
+  position: relative;
+  top: -65px;
+  height: 135px;
+  width: 135px;
+}
+.edit-profile {
+  width: 100px;
+  height: 32px;
+  border: 2px solid black;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 100;
+  color: white;
+  margin-top: 20px;
+}
+.nickname {
+  margin-right: auto;
+  margin-left: 20px;
+  font-size: 22px;
+  color: white;
+}
+.UserID {
+  margin-right: auto;
+  margin-left: 20px;
+  font-size: 15px;
+  font-weight: 100;
+  color: #878787;
+}
+.follows {
+  display: flex;
+  margin-right: auto;
+  margin-left: 16px;
+  font-size: 15px;
+  font-weight: 100;
+  color: #878787;
+}
+.follows p {
+  padding: 5px;
+}
+.creating-post-block {
+  display: block;
+  width: 100%;
+  color: white;
+  height: fit-content;
+  background-color: #aa6262;
+  margin: 20px;
+}
+.post-block {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  color: white;
+  width: 100%;
+  max-height: 600px;
+  min-height: 98px;
+  height: fit-content;
+  background-color: #353535;
+}
+.content-in-the-post {
+  display: flex;
+  color: white;
+  padding: 12px 16px;
+  width: 100%;
+  height: 100%;
+}
+.post-upside {
+  display: flex;
+  flex-direction: row;
+}
+.avatar-in-post {
+  height: 40px;
+  width: 40px;
+  margin-bottom: auto;
+}
+.name-user-date {
+  display: flex;
+  width: fit-content;
+  height: 20px;
+  padding-left: 4px;
+  gap: 4px;
+}
+.name-user-date p {
+  color: #727272;
+}
+.content-post {
+  padding-top: 2px;
+  padding-left: 4px;
+  height: 20px;
+}
+
+

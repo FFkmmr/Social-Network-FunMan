@@ -59,10 +59,51 @@
 </div>
 {% endblock %}
 {% block center-block %}
-
-<h1> {{ user }} </h1>
-
-
+<div class="home-centre-block">
+    <div class="center-back-line" style="margin-bottom: 0;">
+        <button class="circle-back-btn">
+            <img src="{% static 'home/img/back-btn.png' %}" class="back-btn" alt="">
+        </button>
+        <h4>Profile</h4>
+    </div>
+    <div class="background-profile"></div>        
+    <div class="profile-and-edit-profile">
+        <img class="avatar-in-profile" src="{% static 'home/img/camera.png' %}" alt="">
+        <button class="edit-profile">Edit profile</button>
+    </div>
+    <h2 class="nickname"> {{ user }} </h2>
+    <h2 class="UserID"> @{UserID} </h2>
+    <div class="follows">
+        <p><p1 style="color: white;">{0}</p1> Following</p>
+        <p><p1 style="color: white;">{0}</p1> Followers</p>
+    </div>
+    <div class="post_type--toggle" style="margin-top: 20px;">
+        <button class="for-u active-btn">Posts</button>
+        <button class="follow"> Following</button>
+        <button class="follow"> Following</button>
+        <button class="follow"> Following</button>
+    </div>
+    {% for post in posts %}
+    <div class="post-block">
+        <div class="content-in-the-post">
+            <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">      
+            <div class="post-content">
+                <div class="post-upside">
+                    <div class="name-user-date">
+                    <h3>{{ post.user }}</h3>
+                        <p>@UserID</p>
+                        <h5 style="font-size: 12px;">.</h5>
+                        {{ post.get_time_since  }}
+                    </div>
+                </div>
+                <p class="content-post">{{ post.content }}</p>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p style="color: white; top: 20%; position: relative;">У вас пока нет постов.</p>
+    {% endfor %}
+</div>
 {% endblock %}
 {% block right-block %}
 <div class="home-right-block">
