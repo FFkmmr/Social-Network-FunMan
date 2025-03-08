@@ -1,39 +1,105 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required 
 from .forms import PostForm
 from .models import Post 
+from .utils import like_or_not
+from django.http import JsonResponse
 
 
+@login_required
 def profile(request):
-    posts = Post.objects.filter(user=request.user).order_by("-date")
+    filter_type = request.GET.get('filter', 'posts')   
+    
+    if filter_type == 'posts':
+        posts = Post.objects.filter(user=request.user).order_by("-date")
+        like_or_not(request, posts)
+    elif filter_type == 'replies':
+        posts = Post.objects.filter(comments__isnull=False, user=request.user).distinct().order_by("-date")
+        like_or_not(request, posts)
+    elif filter_type == 'media':
+        posts = Post.objects.filter(content__icontains='img', user=request.user).order_by("-date")
+        like_or_not(request, posts)
+    elif filter_type == 'likes':
+        posts = Post.objects.filter(likes=request.user).order_by("-date")
+        like_or_not(request, posts)
+    else:
+        posts = Post.objects.filter(user=request.user).order_by("-date")
+        like_or_not(request, posts)
 
-    return render(request, "home/profile.html", {"posts": posts})
+    return render(request, "home/profile.html", {"posts": posts, "filter": filter_type})
+
 
 
 @login_required
 def home(request):
-    posts = Post.objects.filter(user=request.user).order_by("-date")
+    posts = Post.objects.order_by("-date")
     
+    for post in posts:
+        post.is_something_by_user = post.is_liked_by(request.user)
+
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
             post.user = request.user
             post.save()
-            return redirect("home")  
+            post.tags.set(form.cleaned_data["tags"])
+            return redirect("home")
     else:
         form = PostForm()
     return render(request, "home/home.html", {"form": form, "posts": posts})
 
+@login_required
+def toggle_like(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user) 
+        liked = True
+    return JsonResponse({'liked': liked, 'total_likes': post.total_likes()})
+
+
+
+
+
+
+
+
+
 
 # @login_required
-# def profile(request):
-#     user = request.user
-    
-#     context = {
-#         "user" : user
-#     }
-#     return render(request, "home/profile.html", context)
+# def write_comment(request, post_id):
+#     post = get_object_or_404(Post, id=post_id)
+
+#     if request.method == "POST":
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.user = request.user
+#             post.save()
+#             post.tags.set(form.cleaned_data["tags"])
+#             return redirect("home")
+#     else:
+#         form = CommentForm()
+#     return JsonResponse({'total_comments': post.total_comments(), 'form': form})
+
+def get_comment_form(request):
+    return render(request, 'includes/comment_form.html')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @login_required
