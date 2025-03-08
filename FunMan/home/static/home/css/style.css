@@ -13,9 +13,11 @@
   img, picture, video, canvas, svg {
   display: block;
   max-width: 100%;
+  user-select: none;
   }
   button, input, select, textarea {
   font: inherit;
+  user-select: none;
   }
   button {
     all: unset;
@@ -25,6 +27,17 @@
   text-decoration: none;
   color: inherit;
   }
+.custom-input {
+  background-color: #2C2C2C;
+  color: white;
+  padding-left: 15px;
+  padding-top: 15px;
+  font-size: 18px;
+  width: 94%;
+  border: none;
+  resize: vertical;
+  height: 50px;
+}
 .home-page {
   display: flex;
   height: 100%;
@@ -46,6 +59,7 @@
   flex-flow: column;
   border-right: 4px solid #202020;
   padding-right: 20px;
+  user-select: none;
 }
 .nav-btn {
   all: unset;
@@ -209,6 +223,7 @@
   width: 100%;
   height: 50px;
 }
+.post_type--toggle a,
 .post_type--toggle button {
   user-select: none;
   display: flex;
@@ -217,6 +232,7 @@
   font-size: 18px;
   width: 50%;
   height: 100%;
+  min-height: 50px;
   background-color: #282828;
   color: #8B8B8B;
 }
@@ -240,6 +256,10 @@
   padding: 20px;
   display: flex;
   align-items: center;
+  width: 100%;
+}
+.first-part-ofpostcre form {
+  width: 100%;
 }
 .first-part-ofpostcre img {
   height: 51px;
@@ -248,6 +268,7 @@
   padding-left: 20px;
   color: #8B8B8B;
   font-size: 18px;
+  width: 100%;
 }
 .second-part-ofpostcre {
   display: flex;
@@ -264,6 +285,8 @@
   width: 75px;
   height: 32px;
   background-color: #878787;
+  user-select: none;
+  transition: 0.2s ease-in-out;
 }
 .additional-bar {
   display: flex;
@@ -278,13 +301,15 @@
 .additional-bar img {
   user-select: none;
 }
+
 .center-back-line {
   background-color: black;
-  height: 45px;
   width: 100%;
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 .circle-back-btn {
   background-color: rgb(0, 0, 0);
@@ -413,5 +438,33 @@
   padding-left: 4px;
   height: 20px;
 }
-
-
+.feedback_panel {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: end;
+  padding-left: 4px;
+  height: 32px;
+}
+.feedback_panel img {
+  height: 18px;
+  width: 18px;
+}
+.feedback_panel img:hover {
+  height: 18px;
+  width: 18px;
+  border: 1px solid transparent;
+}
+#submit-button {
+  cursor: not-allowed;
+  transition: background-color 0.3s;
+}
+#submit-button.active {
+  background-color: white;
+  cursor: pointer;
+}
+.post-content {
+  width: 100%;
+}
+.like-count {
+  user-select: none;
+}

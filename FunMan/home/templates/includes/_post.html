@@ -1,0 +1,40 @@
+{% load static %}
+
+{% for post in posts %}
+<div class="post-block">
+    <div class="content-in-the-post">
+        <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">      
+        <div class="post-content">
+            <div class="post-upside">
+                <div class="name-user-date">
+                <h3>{{ post.user }}</h3>
+                    <p>@UserID</p>
+                    <h5 style="font-size: 12px;">.</h5>
+                    {{ post.get_time_since  }}
+                </div>
+            </div>
+            <p class="content-post">{{ post.content }}</p>
+            <div class="feedback_panel">
+                <div style="display: flex; gap: 5px;">
+                    <img class="comments" 
+                    src="{% static 'home/img/post/comment-white.png' %}" 
+                    data-post-id="{{ post.id }}"  data-is-liked="{{ post.is_something_by_user }}" 
+                    alt="comment">
+                    <span class="comment-count">{{ post.comments.count }}</span>
+                </div>
+                
+                <div style="display: flex; gap: 5px;">
+                    <img class="like" 
+                    src="{% if post.is_something_by_user %}{% static 'home/img/post/red-like.png' %}{% else %}{% static 'home/img/post/void-like-white.png' %}{% endif %}" 
+                    data-post-id="{{ post.id }}"  data-is-liked="{{ post.is_something_by_user }}" 
+                    alt="like">
+                    <span class="like-count">{{ post.total_likes }}</span>
+                </div>
+                <img class="share" src="{% static 'home/img/post/share-white.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<p style="color: white; top: 20%; position: relative;">У вас пока нет постов.</p>
+{% endfor %}

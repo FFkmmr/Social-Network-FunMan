@@ -77,32 +77,22 @@
         <p><p1 style="color: white;">{0}</p1> Following</p>
         <p><p1 style="color: white;">{0}</p1> Followers</p>
     </div>
+
+
     <div class="post_type--toggle" style="margin-top: 20px;">
-        <button class="for-u active-btn">Posts</button>
-        <button class="follow"> Following</button>
-        <button class="follow"> Following</button>
-        <button class="follow"> Following</button>
+        <a href="?filter=posts" class="toggle-btn {% if filter == 'posts' %}active-btn{% endif %}">Posts</a>
+        <a href="?filter=replies" class="toggle-btn {% if filter == 'replies' %}active-btn{% endif %}">Replies</a>
+        <a href="?filter=media" class="toggle-btn {% if filter == 'media' %}active-btn{% endif %}">Media</a>
+        <a href="?filter=likes" class="toggle-btn {% if filter == 'likes' %}active-btn{% endif %}">Likes</a>
     </div>
+        
     {% for post in posts %}
-    <div class="post-block">
-        <div class="content-in-the-post">
-            <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">      
-            <div class="post-content">
-                <div class="post-upside">
-                    <div class="name-user-date">
-                    <h3>{{ post.user }}</h3>
-                        <p>@UserID</p>
-                        <h5 style="font-size: 12px;">.</h5>
-                        {{ post.get_time_since  }}
-                    </div>
-                </div>
-                <p class="content-post">{{ post.content }}</p>
-            </div>
-        </div>
-    </div>
+        {% include "includes/_post.html" %}
     {% empty %}
-        <p style="color: white; top: 20%; position: relative;">У вас пока нет постов.</p>
+    <p style="color: white; top: 20%; position: relative;">У вас пока нет постов.</p>
     {% endfor %}
+
+
 </div>
 {% endblock %}
 {% block right-block %}
