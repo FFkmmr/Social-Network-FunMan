@@ -436,7 +436,9 @@
 .content-post {
   padding-top: 2px;
   padding-left: 4px;
-  height: 20px;
+  min-height: 20px;
+  height: fit-content;
+  white-space: pre-wrap;
 }
 .feedback_panel {
   display: flex;
@@ -467,4 +469,16 @@
 }
 .like-count {
   user-select: none;
+}
+.add-comment {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-70%); 
+  display: block; 
+  height: 400px; 
+  width: 450px; 
+  border-radius: 20px;
+  padding: 20px;
+  background-color: rgb(126, 114, 114);
 }

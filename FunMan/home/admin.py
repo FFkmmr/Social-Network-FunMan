@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from django.contrib import admin
 from .models import Post, Comment
+# from .models import  NewComment
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('user', 'content', 'date')
@@ -11,3 +12,4 @@ class PostAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment)
+# admin.site.register(NewComment)
