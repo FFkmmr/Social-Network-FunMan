@@ -19,7 +19,11 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ['content', 'tags']
     
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = Comment
-#         fields = ['text']
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['body']
+
+        widgets = {
+            'body': forms.Textarea(attrs={'class': 'add-comment-input'}),
+        }

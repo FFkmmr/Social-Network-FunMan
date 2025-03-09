@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required 
-from .forms import PostForm
-from .models import Post 
+from .forms import PostForm, CommentForm
+from .models import Post
 from .utils import like_or_not
 from django.http import JsonResponse
 
@@ -29,7 +29,6 @@ def profile(request):
     return render(request, "home/profile.html", {"posts": posts, "filter": filter_type})
 
 
-
 @login_required
 def home(request):
     posts = Post.objects.order_by("-date")
@@ -48,6 +47,7 @@ def home(request):
     else:
         form = PostForm()
     return render(request, "home/home.html", {"form": form, "posts": posts})
+
 
 @login_required
 def toggle_like(request, post_id):
@@ -70,24 +70,24 @@ def toggle_like(request, post_id):
 
 
 
-# @login_required
-# def write_comment(request, post_id):
-#     post = get_object_or_404(Post, id=post_id)
+@login_required
+def write_comment(request, post_id):
+    posts = Post.objects.order_by("-date")
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.name = request.user
+            comment.save()
+            return redirect("home")
+    else:
+        form = CommentForm()
+        secform = PostForm()
+    return render(request, 'includes/comment_form.html', {'form': form, 'post': post, 'posts': posts, 'secform': secform})
 
-#     if request.method == "POST":
-#         form = CommentForm(request.POST)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.user = request.user
-#             post.save()
-#             post.tags.set(form.cleaned_data["tags"])
-#             return redirect("home")
-#     else:
-#         form = CommentForm()
-#     return JsonResponse({'total_comments': post.total_comments(), 'form': form})
-
-def get_comment_form(request):
-    return render(request, 'includes/comment_form.html')
 
 
 

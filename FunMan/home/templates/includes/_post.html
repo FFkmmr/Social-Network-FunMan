@@ -13,16 +13,15 @@
                     {{ post.get_time_since  }}
                 </div>
             </div>
-            <p class="content-post">{{ post.content }}</p>
+            <p class="content-post">{{ post.content|linebreaksbr }}</p>
             <div class="feedback_panel">
-                <div style="display: flex; gap: 5px;">
+                <a style="display: flex; gap: 5px;" href="{% url 'add_comment' post.pk %}">
                     <img class="comments" 
                     src="{% static 'home/img/post/comment-white.png' %}" 
                     data-post-id="{{ post.id }}"  data-is-liked="{{ post.is_something_by_user }}" 
                     alt="comment">
                     <span class="comment-count">{{ post.comments.count }}</span>
-                </div>
-                
+                </a>
                 <div style="display: flex; gap: 5px;">
                     <img class="like" 
                     src="{% if post.is_something_by_user %}{% static 'home/img/post/red-like.png' %}{% else %}{% static 'home/img/post/void-like-white.png' %}{% endif %}" 

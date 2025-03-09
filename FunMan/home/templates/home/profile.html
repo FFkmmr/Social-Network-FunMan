@@ -86,12 +86,7 @@
         <a href="?filter=likes" class="toggle-btn {% if filter == 'likes' %}active-btn{% endif %}">Likes</a>
     </div>
         
-    {% for post in posts %}
-        {% include "includes/_post.html" %}
-    {% empty %}
-    <p style="color: white; top: 20%; position: relative;">У вас пока нет постов.</p>
-    {% endfor %}
-
+    {% include "includes/_post.html" %}
 
 </div>
 {% endblock %}

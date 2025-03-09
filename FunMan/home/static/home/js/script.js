@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+// Left panel
 document.addEventListener("DOMContentLoaded", function () {
     const routes = {
         home: "/",
@@ -29,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+// Create the post panel 
 document.addEventListener('DOMContentLoaded', function () {
     const textareaField = document.querySelector('textarea[name="content"]');
     const submitButton = document.getElementById('submit-button');
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+// Create the post panel
 document.addEventListener('DOMContentLoaded', function () {
     const textarea = document.querySelector('textarea[name="content"]');
     
@@ -56,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
         adjustHeight();
     }
 });
-
+// Likes
 document.addEventListener('DOMContentLoaded', function () {
     const comments = document.querySelector('.comments');
     const share = document.querySelector('.share');
@@ -102,16 +105,11 @@ document.addEventListener('DOMContentLoaded', function () {
 //             const postId = comment.dataset.postId;
             
 //             fetch(`/write-comment/${postId}/`, {
-//                 method: 'GET',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
+//                 method: 'POST',
 //             })
 //             .then(response => response.json())
 //             .then(data => {
 
-//                 const commentCount = comment.nextElementSibling;
-//                 commentCount.textContent = data.total_comments;
 //             }).catch(error => {
 //                 console.error('Error:', error);
 //             });
