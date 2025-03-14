@@ -129,11 +129,56 @@
 
 
 {% block add_comment %}
-<div style="position: absolute; width: 100%; height: 100%; background-color: black; top: 0; opacity: 0.5;"></div>
-<form id="comment-form" action="{% url 'add_comment' post.pk %}" method="POST" class="add-comment">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Отправить</button>
-</form>
+<div style="position: absolute; width: 100%; height: 100%; background-color: black; top: 0; opacity: 0.5;"></div> <!-- Закрывашка -->
+<div class="add-comment">
+    <button class="back-button closebtn-index" style="z-index: 100;">
+        <img src="{% static 'authorization/img/close-button.png' %}" alt="">
+    </button>
+    <div class="post-block" style="border-bottom: 0">
+        <div class="content-in-the-post">
+            <img  style="z-index: 100;" class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">
 
+            <div class="post-content">
+                <div class="post-upside">
+                    <div class="name-user-date">
+                    <h3>{{ post.user }}</h3>
+                        <p>@UserID</p>
+                        <h5 style="font-size: 12px;">.</h5>
+                        {{ post.get_time_since  }}
+                    </div>
+                </div>
+                <div style="height: fit-content; position: relative;">
+                    <p class="content-post">{{ post.content|linebreaksbr }}</p>
+                    
+                <div style="top: 0; left: 0; width: 100%; height: 100%; position: absolute; pointer-events: none;">
+                    <div style="top: 30px; left: -20px; position: absolute; width: 2px; height: 93%; background-color: #484848;"></div>
+                </div>
+                </div>
+                <div class="feedback_panel">
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="comment-form" action="{% url 'add_comment' post.pk %}" method="POST" class="">
+        {% csrf_token %}
+        <div class="post-block" style="border-bottom: 0">
+            <div class="content-in-the-post">
+                <img  style="z-index: 100;" class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">
+    
+                <div class="post-content">
+                    <div class="post-upside">
+                        <div class="name-user-date">
+                        <h3>{{ user }}</h3>
+                            <p>@UserID</p>
+                        </div>
+                    </div>
+                    {{ form.body }}
+                    <div class="feedback_panel">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="submit-button" disabled>Post</button> <br>
+    </form>
+</div>
 {% endblock %}

@@ -21,7 +21,7 @@ class RegistrationForm(forms.ModelForm):
         'required': 'True',
         'class': 'custom-input'
     }))
-    birthdate = forms.DateField(widget=forms.DateInput(attrs={
+    birthdate = forms.DateField(required=False, widget=forms.DateInput(attrs={
         'id': 'reg-birthdate',
         'min': '1900-01-01',
         'max': '2025-01-01',

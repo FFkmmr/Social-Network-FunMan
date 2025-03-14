@@ -1,5 +1,12 @@
 
 document.addEventListener("DOMContentLoaded", function () {
+    const closebtn = document.querySelector('.closebtn-index');
+    if (closebtn != null) {
+        closebtn.addEventListener('click', () => {
+            window.location.href = '../';
+        });
+    }
+    
     const backButton = document.querySelector(".circle-back-btn");
 
     if (backButton) {
@@ -32,17 +39,26 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // Create the post panel 
 document.addEventListener('DOMContentLoaded', function () {
-    const textareaField = document.querySelector('textarea[name="content"]');
-    const submitButton = document.getElementById('submit-button');
-    if (textareaField != null) {
-        textareaField.addEventListener('input', function () {
-        if (textareaField.value.trim() !== "") {
-            submitButton.removeAttribute('disabled');
-            submitButton.classList.add('active'); 
-        } else {
-            submitButton.setAttribute('disabled', true);
-            submitButton.classList.remove('active');
-        }
+    const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"]');
+    const submitButtons = document.querySelectorAll('.submit-button');
+
+    if (textareaFields.length > 0) {
+        window.addEventListener('load', postBtn);
+        textareaFields.forEach(textarea => {
+            textarea.addEventListener('input', postBtn);
+        });
+    }
+    function postBtn() {
+        const isValid = Array.from(textareaFields).some(textarea => textarea.value.trim() !== "");
+        
+        submitButtons.forEach(button => { 
+            if (isValid) {
+                button.removeAttribute('disabled');
+                button.classList.add('active');
+            } else {
+                button.setAttribute('disabled', true);
+                button.classList.remove('active');
+            }
         });
     }
 });
@@ -94,28 +110,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 })
 // /////////////////////////////////////////////////////////////////
-// document.addEventListener('DOMContentLoaded', function () {
-//     const comments = document.querySelectorAll('.comments');
-//     const share = document.querySelector('.share');
-//     const likes = document.querySelector('.like');
-
-//     if (share != null && likes != null) {
-//         comments.forEach(comment => {
-//         comment.addEventListener('click', () => {
-//             const postId = comment.dataset.postId;
-            
-//             fetch(`/write-comment/${postId}/`, {
-//                 method: 'POST',
-//             })
-//             .then(response => response.json())
-//             .then(data => {
-
-//             }).catch(error => {
-//                 console.error('Error:', error);
-//             });
-//         })
-//     })
-//     }
-// })
 // ...............................................................
 
+// function syncHeight() {
+//     let block1 = document.getElementById("block1");
+//     let block2 = document.getElementById("block2");
+
+//     if (block1 && block2) {
+//         block2.style.height = block1.clientHeight + "px";
+//     }
+// }
+
+// window.addEventListener("load", syncHeight);
+// window.addEventListener("resize", syncHeight);

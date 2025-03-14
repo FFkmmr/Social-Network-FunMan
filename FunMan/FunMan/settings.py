@@ -30,6 +30,12 @@ INSTALLED_APPS = [
     'taggit',
     'authorization',
     'home',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -120,13 +126,28 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # User
 AUTH_USER_MODEL = 'authorization.MyUser'
 
-# /////////////////////////////////////////////////////////////
-# MEDIA_URL = 'Social-Network-FunMan/FunMan/authorization/media'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-# /////////////////////////////////////////////////////////////
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend', 
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 LOGIN_URL = '/authorization/'
+
+# НАСТРОЙКИ
+SITE_ID = 1
+
+#  Настройки email (Mailgun)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "your@mailgun.domain"
+EMAIL_HOST_PASSWORD = "your-mailgun-password"
+DEFAULT_FROM_EMAIL = "Your App <noreply@yourapp.com>"
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Требуем подтверждение email
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_REDIRECT_URL = "/set-password/"  # После OAuth-регистрации отправляем на установку пароля

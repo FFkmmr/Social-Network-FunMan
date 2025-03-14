@@ -66,25 +66,24 @@
         <button class="follow"> Following</button>
     </div>
     <div class="centre-post-create">
-        <div class="first-part-ofpostcre">
-            <img src="{% static 'home/img/camera.png' %}" alt="">
-
-            <form method="POST">
-                {% csrf_token %}
-            <p style="width: 100%;">
-                {{ form.content }}
-            </p>
-        </div>
-        <div class="second-part-ofpostcre">
-            <div class="additional-bar">
-                <img src="{% static 'home/img/gallery-ico.png' %}" alt="">
-                <img src="{% static 'home/img/emoji-ico.png' %}" alt="">
-                <img src="{% static 'home/img/gif-ico.png' %}" alt="">
-                <img src="{% static 'home/img/calendar-ico.png' %}" alt="">
-                {{ form.tags }}
+        <form method="POST">
+            {% csrf_token %}
+            <div class="first-part-ofpostcre">
+                <img src="{% static 'home/img/camera.png' %}" alt="">
+                <p style="width: 100%;">
+                    {{ form.content }}
+                </p>
             </div>
-            <button type="submit" id="submit-button" class="disabled" disabled>Post</button>
-        </div>
+            <div class="second-part-ofpostcre">
+                <div class="additional-bar">
+                    <img src="{% static 'home/img/gallery-ico.png' %}" alt="">
+                    <img src="{% static 'home/img/emoji-ico.png' %}" alt="">
+                    <img src="{% static 'home/img/gif-ico.png' %}" alt="">
+                    <img src="{% static 'home/img/calendar-ico.png' %}" alt="">
+                    {{ form.tags }}
+                </div>
+                <button type="submit" class="submit-button" disabled>Post</button>
+            </div>
         </form>
     </div>
     {% include "includes/_post.html" %}

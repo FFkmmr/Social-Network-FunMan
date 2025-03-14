@@ -13,8 +13,8 @@ def profile(request):
     if filter_type == 'posts':
         posts = Post.objects.filter(user=request.user).order_by("-date")
         like_or_not(request, posts)
-    elif filter_type == 'replies':
-        posts = Post.objects.filter(comments__isnull=False, user=request.user).distinct().order_by("-date")
+    elif filter_type == 'replies': 
+        posts = Post.objects.filter(comments__name=request.user).distinct().order_by("-date")
         like_or_not(request, posts)
     elif filter_type == 'media':
         posts = Post.objects.filter(content__icontains='img', user=request.user).order_by("-date")
@@ -62,18 +62,11 @@ def toggle_like(request, post_id):
     return JsonResponse({'liked': liked, 'total_likes': post.total_likes()})
 
 
-
-
-
-
-
-
-
-
 @login_required
 def write_comment(request, post_id):
     posts = Post.objects.order_by("-date")
     post = get_object_or_404(Post, id=post_id)
+    user = request.user
     
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -86,20 +79,7 @@ def write_comment(request, post_id):
     else:
         form = CommentForm()
         secform = PostForm()
-    return render(request, 'includes/comment_form.html', {'form': form, 'post': post, 'posts': posts, 'secform': secform})
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return render(request, 'includes/comment_form.html', {'form': form, 'post': post, 'posts': posts, 'secform': secform, 'user': user})
 
 
 @login_required
