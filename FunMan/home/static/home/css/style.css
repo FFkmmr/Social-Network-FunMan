@@ -202,6 +202,7 @@
   margin-right: 5px;
 }
 .home-centre-block {
+  position: relative;
   display: flex;
   align-items: center;
   flex-flow: column;
@@ -402,10 +403,11 @@
   margin-bottom: 2px;
   color: white;
   width: 100%;
-  max-height: 600px;
+  /* max-height: 600px; */
   min-height: 98px;
   height: fit-content;
-  background-color: #353535;
+  background-color: #2C2C2C;
+  border-bottom: 3px solid #202020;
 }
 .content-in-the-post {
   display: flex;
@@ -421,7 +423,6 @@
 .avatar-in-post {
   height: 40px;
   width: 40px;
-  margin-bottom: auto;
 }
 .name-user-date {
   display: flex;
@@ -434,7 +435,7 @@
   color: #727272;
 }
 .content-post {
-  padding-top: 2px;
+  padding-top: 5px;
   padding-left: 4px;
   min-height: 20px;
   height: fit-content;
@@ -456,11 +457,23 @@
   width: 18px;
   border: 1px solid transparent;
 }
-#submit-button {
+.submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: 32px;
+  border-radius: 50px;
+  width: 75px;
+  height: 32px;
+  background-color: #878787;
+  user-select: none;
+  transition: 0.2s ease-in-out;
+
   cursor: not-allowed;
   transition: background-color 0.3s;
 }
-#submit-button.active {
+.submit-button.active {
   background-color: white;
   cursor: pointer;
 }
@@ -472,13 +485,45 @@
 }
 .add-comment {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-70%); 
-  display: block; 
-  height: 400px; 
-  width: 450px; 
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%,-50%); 
+
+  display: flex;
+  flex-flow: column; 
+  min-height: 315px;
+  height: fit-content; 
+  width: 604px; 
   border-radius: 20px;
-  padding: 20px;
-  background-color: rgb(126, 114, 114);
+  background-color: #2C2C2C;
+}
+/* close button */
+.back-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  float: right;
+  border-radius: 100%;
+  background-color: #2C2C2C;
+  top: 25%;
+  margin: 14px;
+}
+.back-button img {
+  filter: brightness(0) invert(1);
+  width: 20px;
+  height: 20px;
+}
+.add-comment-input {
+  background-color: #2C2C2C;
+  color: white;
+  padding-left: 10px;
+  padding-top: 5px;
+  font-size: 15px;
+  width: 94%;
+  border: 1px solid #3d3d3d;
+  resize: vertical;
+  height: 100px;
+  margin-top: 5px;
 }
