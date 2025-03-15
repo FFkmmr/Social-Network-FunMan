@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,14 +21,18 @@
         ideas and interests</h1>
       <div class="text-area-hp">
         <p class="txt-pricol">Join now.</p>
-        <button class="wgoogle">
-          <img src="{% static 'authorization/img/v44_4.png' %}" alt="">
-          <p>With Google</p>
-        </button>
-        <button class="wgithub">
-          <img src="{% static 'authorization/img/v44_5.png' %}" alt="">
-          <p>With GitHub</p>
-        </button>
+        <a href="{% provider_login_url 'google' %}">
+          <button class="wgoogle">
+            <img src="{% static 'authorization/img/v44_4.png' %}" alt="">
+            <p>With Google</p>
+          </button>
+        </a>
+        <a href="{% provider_login_url 'github' %}">
+          <button class="wgithub">
+            <img src="{% static 'authorization/img/v44_5.png' %}" alt="">
+            <p>With GitHub</p>
+          </button>
+        </a>
         <div class="line-or">
           <hr> <p>or</p> <hr>
         </div>
