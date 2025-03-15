@@ -1,6 +1,7 @@
 from .passwords import main_password
 from pathlib import Path
 import os
+from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +47,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'FunMan.urls'
@@ -132,22 +134,48 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': clientGoogleID,
+            'secret': clientGoogleSECRET,
+        },
+        'SCOPE': ['profile', 'email'],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+            'prompt': 'consent',    
+        },
+        'METHOD': 'oauth2',
+        'VERIFIED_EMAIL': True,
+    },
+    'github': {
+        'APP': {
+            'client_id': clientGitHubID,
+            'secret': clientGitHubSECRET,
+        },
+        'AUTH_PARAMS': {
+            'prompt': 'consent',  
+        },
+    }
+}
+
 LOGIN_URL = '/authorization/'
+LOGIN_REDIRECT_URL = '/authorization/change-password/'
 
-# НАСТРОЙКИ
+
 SITE_ID = 1
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+ACCOUNT_UNIQUE_EMAIL = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "none"
 
-#  Настройки email (Mailgun)
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.mailgun.org"
-EMAIL_PORT = 587
+SOCIALACCOUNT_ADAPTER = 'authorization.adapters.SocialAccountAdapter'
+
+# MailGun
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "your@mailgun.domain"
-EMAIL_HOST_PASSWORD = "your-mailgun-password"
-DEFAULT_FROM_EMAIL = "Your App <noreply@yourapp.com>"
-
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"  # Требуем подтверждение email
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_SIGNUP_REDIRECT_URL = "/set-password/"  # После OAuth-регистрации отправляем на установку пароля
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = Email_Host_User
+EMAIL_HOST_PASSWORD = Email_Host_Password

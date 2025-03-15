@@ -38,6 +38,7 @@ class RegistrationForm(forms.ModelForm):
             user.save()  
         return user
 
+
 class SignInForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={
         'placeholder': 'Name',
@@ -51,3 +52,21 @@ class SignInForm(forms.Form):
         'required': 'True',
         'class': 'custom-input'
     }))
+
+
+class EmailForm(forms.Form):
+    email = forms.EmailField(label='Enter your email', required=True)
+
+    
+class SetPasswordForm(forms.Form):
+    new_password1 = forms.CharField(widget=forms.PasswordInput, label="New Password")
+    new_password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm New Password")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("new_password1")
+        password2 = cleaned_data.get("new_password2")
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("The passwords do not match.")
+        return cleaned_data
