@@ -6,4 +6,5 @@ urlpatterns = [
     path('authorization/', include("authorization.urls")),
     path('', include("home.urls")),
     path('accounts/', include('allauth.urls')),
+    path('reset/', include('authorization.urls')),
 ]

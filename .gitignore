@@ -32,3 +32,5 @@ media/
 .DS_Store
 **/migrations/
 !**/migrations/__init__.py
+FunMan/FunMan/utils.py
+FunMan/authorization/utils.py

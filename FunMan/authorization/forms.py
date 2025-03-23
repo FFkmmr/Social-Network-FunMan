@@ -1,6 +1,10 @@
 from django import forms
 from .models import MyUser
 from django.contrib.auth.hashers import make_password  
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 class RegistrationForm(forms.ModelForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
@@ -62,6 +66,10 @@ class SetPasswordForm(forms.Form):
     new_password1 = forms.CharField(widget=forms.PasswordInput, label="New Password")
     new_password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm New Password")
 
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
     def clean(self):
         cleaned_data = super().clean()
         password1 = cleaned_data.get("new_password1")
@@ -70,3 +78,9 @@ class SetPasswordForm(forms.Form):
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("The passwords do not match.")
         return cleaned_data
+
+    def save(self, commit=True):
+        self.user.set_password(self.cleaned_data["new_password1"])
+        if commit:
+            self.user.save()
+        return self.user
