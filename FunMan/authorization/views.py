@@ -76,10 +76,9 @@ def password_reset(request: HttpRequest) -> HttpResponse:
             email = form.cleaned_data['email']
             try:
                 user = MyUser.objects.get(email=email)
-                uidb64 = urlsafe_base64_encode(force_bytes(user.id))
                 token = generate_token(user.id)
 
-                reset_url = request.build_absolute_uri(f'/authorization/reset/{uidb64}/{token}/')
+                reset_url = request.build_absolute_uri(f'/authorization/reset/{token}/')
                 
                 send_mail(
                     'Reset your password',
@@ -95,26 +94,17 @@ def password_reset(request: HttpRequest) -> HttpResponse:
     return render(request, 'authorization/change_password.html', {'form': form})
 
 
-def change_password(request: HttpRequest, uidb64: str, token: str) -> HttpResponse:
-    try:
-        uid = force_str(urlsafe_base64_decode(uidb64))
-        user = MyUser.objects.get(pk=uid)
-    except (TypeError, ValueError, OverflowError, MyUser.DoesNotExist):
-        user = None
-    
-    if user is not None:
-        user_id = decode_token(token)
-        if user_id and user_id == user.id: 
-            if request.method == 'POST':
-                form = SetPasswordForm(user, request.POST)
-                if form.is_valid():
-                    form.save()
-                    return redirect('login')
-            else:
-                form = SetPasswordForm(user)
-            return render(request, 'authorization/password_reset_form.html', {'form': form})
-        else:
+def change_password(request: HttpRequest, token: str) -> HttpResponse:
+    user_id = decode_token(token)
+    user = MyUser.objects.get(id=user_id)
+
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
             return redirect('login')
     else:
-        return redirect('login')
-    
+        form = SetPasswordForm(user)
+    return render(request, 'authorization/password_reset_form.html', {'form': form})
+
+ 
