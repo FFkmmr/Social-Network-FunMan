@@ -9,7 +9,7 @@ urlpatterns = [
     path('registration/', views.registration, name='registration'),
     path('accounts/', include('allauth.urls')),
     
-    path('reset/<str:uidb64>/<str:token>/', views.change_password, name='change_password'),
+    path('reset/<str:token>/', views.change_password, name='change_password'),
     path('password_reset/', views.password_reset, name='password_reset'),
     # TEST
     # path(
