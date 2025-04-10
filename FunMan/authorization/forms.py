@@ -75,7 +75,7 @@ class SetPasswordForm(forms.Form):
         password1 = cleaned_data.get("new_password1")
         password2 = cleaned_data.get("new_password2")
 
-        if password1 and password2 and password1 != password2:
+        if password1 != password2:
             raise forms.ValidationError("The passwords do not match.")
         return cleaned_data
 
