@@ -1,1 +1,1 @@
-web gunicorn FunMan.wsgi:application --log-file -
+web: gunicorn FunMan.wsgi:application --log-file -
