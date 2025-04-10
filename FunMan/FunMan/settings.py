@@ -2,6 +2,8 @@ from .passwords import main_password
 from pathlib import Path
 import os
 from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, email_password, email_name
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -16,7 +18,7 @@ SECRET_KEY = 'django-insecure-93ui96b9h!p#hu)0vx1j(^1bi2@x5t46v5ixn$eo$gk7q#4&$=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -188,3 +190,7 @@ EMAIL_HOST_PASSWORD = Email_Host_Password
 # EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = email_name
 # EMAIL_HOST_PASSWORD = email_password
+
+# Heroku
+
+django_heroku.settings(locals())
