@@ -1,7 +1,7 @@
 from .passwords import main_password
 from pathlib import Path
 import os
-from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, email_password, email_name
+from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, UserFunbd, PasswordFunbd
 import django_heroku
 import dj_database_url
 
@@ -76,23 +76,17 @@ WSGI_APPLICATION = 'FunMan.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'fmbd',
-#         'USER': 'postgres',
-#         'PASSWORD': main_password,
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        conn_health_checks=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'funbd',
+        'USER': UserFunbd,
+        'PASSWORD': PasswordFunbd,
+        'HOST': 'localhost',
+        'PORT': '5433',
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -209,3 +203,6 @@ CSRF_COOKIE_SECURE = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# heroku config:set DATABASE_URL="postgres://mitsuhano:Mit0316@4.tcp.eu.ngrok.io:16905/mydb"
