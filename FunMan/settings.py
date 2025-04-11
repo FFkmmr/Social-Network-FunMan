@@ -205,4 +205,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# heroku config:set DATABASE_URL="postgres://mitsuhano:Mit0316@4.tcp.eu.ngrok.io:16905/mydb"
+
+SILENCED_SYSTEM_CHECKS = ["auth.E003"] 
