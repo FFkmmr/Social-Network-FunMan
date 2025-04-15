@@ -1,7 +1,6 @@
-from .passwords import main_password
 from pathlib import Path
 import os
-from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, UserFunbd, PasswordFunbd
+from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, UserFunbd, PasswordFunbd, main_password
 import django_heroku
 import dj_database_url
 
