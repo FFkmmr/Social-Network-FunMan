@@ -9,7 +9,6 @@ urlpatterns = [
     path('community/', views.community, name="community"),
     path('lists/', views.lists, name="lists"),
     path('toggle-like/<int:post_id>/', views.toggle_like, name='toggle_like'),
-
     path('<int:post_id>/comment', views.write_comment, name='add_comment'),
     
 ]

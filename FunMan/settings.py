@@ -1,7 +1,7 @@
 from .passwords import main_password
 from pathlib import Path
 import os
-from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, email_password, email_name
+from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, UserFunbd, PasswordFunbd
 import django_heroku
 import dj_database_url
 
@@ -9,14 +9,16 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-93ui96b9h!p#hu)0vx1j(^1bi2@x5t46v5ixn$eo$gk7q#4&$='
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG
+current_host = os.environ.get('HEROKU_APP_URL', 'http://127.0.0.1:8000')
+if '127.0.0.1' in current_host or 'localhost' in current_host:
+    DEBUG = True
+else:
+    DEBUG = False
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -50,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  
 ]
 
 ROOT_URLCONF = 'FunMan.urls'
@@ -78,13 +81,14 @@ WSGI_APPLICATION = 'FunMan.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'fmbd',
-        'USER': 'postgres',
-        'PASSWORD': main_password,
+        'NAME': 'funbd',
+        'USER': UserFunbd,
+        'PASSWORD': PasswordFunbd,
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -120,7 +124,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -182,15 +186,14 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = Email_Host_User
 EMAIL_HOST_PASSWORD = Email_Host_Password
 
-# SMTP Configuration
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = '587'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = email_name
-# EMAIL_HOST_PASSWORD = email_password
-
-# Heroku
 
 django_heroku.settings(locals())
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+

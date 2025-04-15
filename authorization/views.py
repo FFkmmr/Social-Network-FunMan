@@ -65,7 +65,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth import get_user_model
 from django.utils.encoding import force_bytes
 from django.http import HttpResponse, JsonResponse, HttpRequest, HttpResponseForbidden
-from .utils import generate_token, decode_token
+from .services import generate_token, decode_token
 from django.utils.encoding import force_str
 
 

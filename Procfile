@@ -1,0 +1,1 @@
+web: gunicorn FunMan.wsgi:application --log-file -

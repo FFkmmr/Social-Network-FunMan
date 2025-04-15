@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from taggit.managers import TaggableManager
 from django.utils import timezone
-from .utils import time_since_post, generate_slug
+from .services import time_since_post, generate_slug
 User = get_user_model()
 
 
