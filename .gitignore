@@ -30,12 +30,10 @@ media/
 .vscode/
 .idea/
 .DS_Store
-# **/migrations/
-# !**/migrations/__init__.py
-FunMan/FunMan/utils.py
-FunMan/authorization/utils.py
-
+**/migrations/
+!**/migrations/__init__.py
 
 docker-compose.yml
 */postgres_data/
-FunMan/utils.py
+**utils.py
+**passwords.py
