@@ -1,3 +1,18 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === name + "=") {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const closebtn = document.querySelector('.closebtn-index');
@@ -15,6 +30,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+
+
 // Left panel
 document.addEventListener("DOMContentLoaded", function () {
     const routes = {
@@ -40,6 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
 // Create the post panel 
 document.addEventListener('DOMContentLoaded', function () {
     const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"]');
@@ -65,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
 // Create the post panel
 document.addEventListener('DOMContentLoaded', function () {
     const textarea = document.querySelector('textarea[name="content"]');
@@ -78,6 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
         adjustHeight();
     }
 });
+
+
 // Likes
 document.addEventListener('DOMContentLoaded', function () {
     const comments = document.querySelector('.comments');
@@ -112,3 +135,31 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     }
 })
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const followBtn = document.querySelector(".follow-btn");
+
+    if (followBtn) {
+        followBtn.addEventListener("click", function () {
+            const userId = followBtn.dataset.userId;
+
+            fetch(`/follow/${userId}/`, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie("csrftoken"),
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                followBtn.textContent = data.following ? "Unfollow" : "Follow";
+            });
+        });
+    }
+
+});
+
+
+
+
+

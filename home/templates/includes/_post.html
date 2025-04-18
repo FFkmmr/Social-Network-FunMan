@@ -8,7 +8,7 @@
             <div class="post-content">
                 <div class="post-upside">
                     <div class="name-user-date">
-                    <h3>{{ post.user }}</h3>
+                        <a href="{% url 'stranger_profile' post.user.id %}">{{ post.user }}</a>
                         <p>@UserID</p>
                         <h5 style="font-size: 12px;">.</h5>
                         {{ post.get_time_since  }}

@@ -1,33 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required 
+from django.contrib.auth import get_user_model
 from .forms import PostForm, CommentForm
 from .models import Post
 from .services import like_or_not, following_posts
 from django.http import JsonResponse
 
+User = get_user_model()
 
-@login_required
-def profile(request):
-    filter_type = request.GET.get('filter', 'posts')   
-    
-    if filter_type == 'posts':
-        posts = Post.objects.filter(user=request.user).order_by("-date")
-        like_or_not(request, posts)
-    elif filter_type == 'replies': 
-        posts = Post.objects.filter(comments__name=request.user).distinct().order_by("-date")
-        like_or_not(request, posts)
-    elif filter_type == 'media':
-        posts = Post.objects.filter(content__icontains='img', user=request.user).order_by("-date")
-        like_or_not(request, posts)
-    elif filter_type == 'likes':
-        posts = Post.objects.filter(likes=request.user).order_by("-date")
-        like_or_not(request, posts)
-    else:
-        posts = Post.objects.filter(user=request.user).order_by("-date")
-        like_or_not(request, posts)
-
-    return render(request, "home/profile.html", {"posts": posts, "filter": filter_type})
-
+def redirect_to_home(request):
+    return redirect('home')
 
 @login_required
 def home(request):
@@ -106,3 +88,64 @@ def lists(request):
 def messages(request):
     return render(request, "home/messages.html")
 
+
+
+
+
+
+@login_required
+def profile(request):
+    filter_type = request.GET.get('filter', 'posts')   
+    
+    if filter_type == 'posts':
+        posts = Post.objects.filter(user=request.user).order_by("-date")
+        like_or_not(request, posts)
+    elif filter_type == 'replies': 
+        posts = Post.objects.filter(comments__name=request.user).distinct().order_by("-date")
+        like_or_not(request, posts)
+    elif filter_type == 'media':
+        posts = Post.objects.filter(content__icontains='img', user=request.user).order_by("-date")
+        like_or_not(request, posts)
+    elif filter_type == 'likes':
+        posts = Post.objects.filter(likes=request.user).order_by("-date")
+        like_or_not(request, posts)
+
+    return render(request, "home/profile.html", {"posts": posts, "filter": filter_type, 'stranger': False, "user": request.user})
+
+
+
+
+
+@login_required
+def stranger_profile(request, user_id):
+    filter_type = request.GET.get('filter', 'posts')   
+    user = get_object_or_404(User, id=user_id)
+    is_following = request.user.following.filter(id=user_id).exists()
+    
+    if filter_type == 'posts':
+        posts = Post.objects.filter(user=user_id).order_by("-date")
+        like_or_not(request, posts)
+    elif filter_type == 'media':
+        posts = Post.objects.filter(content__icontains='img', user=user_id).order_by("-date")
+        like_or_not(request, posts)
+
+    if (request.user.id == user_id):
+        stranger = False
+    else:
+        stranger = True
+    return render(request, "home/profile.html", {"posts": posts, "filter": filter_type, 'stranger': stranger, 'user': user, "is_following": is_following})
+
+
+
+
+@login_required
+def follow_toggle(request, user_id):
+    if request.method == "POST":
+        target = User.objects.get(id=user_id)
+        if target in request.user.following.all():
+            request.user.following.remove(target)
+            following = False
+        else:
+            request.user.following.add(target)
+            following = True
+        return JsonResponse({"following": following})

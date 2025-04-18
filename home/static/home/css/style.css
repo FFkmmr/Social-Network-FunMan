@@ -348,6 +348,7 @@
   justify-content: space-between;
   padding: 0 45px;
   height: 80px;
+  user-select: none;
 }
 .avatar-in-profile {
   position: relative;
@@ -361,7 +362,7 @@
   border: 2px solid black;
   border-radius: 50px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 100;
   color: white;
   margin-top: 20px;
