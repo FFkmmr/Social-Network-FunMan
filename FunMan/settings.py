@@ -1,8 +1,23 @@
 from pathlib import Path
 import os
-from .utils import clientGoogleSECRET, clientGoogleID, clientGitHubSECRET, clientGitHubID, Email_Host_User, Email_Host_Password, UserFunbd, PasswordFunbd, main_password
 import django_heroku
-import dj_database_url
+
+
+import environ
+env = environ.Env()
+environ.Env.read_env()
+
+
+clientGoogleSECRET = env('CLIENT_GOOGLE_SECRET')
+clientGoogleID = env('CLIENT_GOOGLE_ID')
+clientGitHubSECRET = env('CLIENT_GITHUB_SECRET')
+clientGitHubID = env('CLIENT_GITHUB_ID')
+Email_Host_User = env('EMAIL_HOST_USER')
+Email_Host_Password = env('EMAIL_HOST_PASSWORD')
+UserFunbd = env('USERFUNDB')
+PasswordFunbd = env('PASSWORDFUNDB')
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
