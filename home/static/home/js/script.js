@@ -25,7 +25,10 @@ document.addEventListener("DOMContentLoaded", function () {
         bookmarks: "/bookmarks/",
         community: "/community/",
         lists: "/lists/",
-        post: "/post/"
+        // post: "/post/",
+    // Toggle posts
+        following: "/following/",
+        for_u: "/",
     };
 
     Object.keys(routes).forEach(id => {
@@ -109,17 +112,3 @@ document.addEventListener('DOMContentLoaded', function () {
     })
     }
 })
-// /////////////////////////////////////////////////////////////////
-// ...............................................................
-
-// function syncHeight() {
-//     let block1 = document.getElementById("block1");
-//     let block2 = document.getElementById("block2");
-
-//     if (block1 && block2) {
-//         block2.style.height = block1.clientHeight + "px";
-//     }
-// }
-
-// window.addEventListener("load", syncHeight);
-// window.addEventListener("resize", syncHeight);

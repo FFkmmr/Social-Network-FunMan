@@ -3,6 +3,7 @@ from datetime import timedelta
 from django.utils.text import slugify
 import random
 
+
 def time_since_post(post_date):
     delta = now() - post_date
 
@@ -17,10 +18,19 @@ def time_since_post(post_date):
     else:
         return post_date.strftime("%d.%m.%Y %H:%M")
 
+
 def generate_slug(user, content):
     base_slug = slugify(f"{user}-{content[:10]}")
     return f"{base_slug}-{random.randint(1000, 9999)}"
 
+
 def like_or_not(request, posts):
     for post in posts:
-            post.is_something_by_user = post.is_liked_by(request.user)
+        post.is_something_by_user = post.is_liked_by(request.user)
+
+
+def following_posts(request, posts):
+    user = request.user
+    followed_users = user.following.all()
+    return posts.exclude(user=user).filter(user__in=followed_users)
+    

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required 
 from .forms import PostForm, CommentForm
 from .models import Post
-from .services import like_or_not
+from .services import like_or_not, following_posts
 from django.http import JsonResponse
 
 
@@ -31,10 +31,15 @@ def profile(request):
 
 @login_required
 def home(request):
+    filter_type = request.GET.get('filter', 'for_u')
     posts = Post.objects.order_by("-date")
-    
-    for post in posts:
-        post.is_something_by_user = post.is_liked_by(request.user)
+
+    if filter_type == "following":
+        posts = following_posts(request, posts)
+    else: 
+        posts = Post.objects.order_by("-date")
+
+    like_or_not(request, posts)
 
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -46,7 +51,7 @@ def home(request):
             return redirect("home")
     else:
         form = PostForm()
-    return render(request, "home/home.html", {"form": form, "posts": posts})
+    return render(request, "home/home.html", {"form": form, "posts": posts, "filter": filter_type})
 
 
 @login_required

@@ -4,7 +4,7 @@
 
 {% block title %} Home {% endblock %}
 
-{% block left-block %}
+{% block left-block %}  
 <div class="home-left-block">
     <img src="{% static 'home/img/v24_18.png' %}" alt="" class="home-logo">
     <nav>
@@ -62,9 +62,10 @@
 {% block center-block %}
 <div class="home-centre-block">
     <div class="post_type--toggle">
-        <button class="for-u active-btn">For you</button>
-        <button class="follow"> Following</button>
+        <a href="?filter=for_u" class="toggle-posts {% if filter == 'for_u' %}active-btn{% endif %}" id="for_u">For You</a>
+        <a href="?filter=following" class="toggle-posts {% if filter == 'following' %}active-btn{% endif %}" id="following">Following</a>
     </div>
+    
     <div class="centre-post-create">
         <form method="POST">
             {% csrf_token %}

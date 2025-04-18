@@ -237,7 +237,7 @@
   background-color: #282828;
   color: #8B8B8B;
 }
-.follow:hover {
+.toggle-posts:hover {
   background-color: #363636;
 }
 .post_type--toggle .active-btn {
@@ -379,6 +379,7 @@
   font-weight: 100;
   color: #878787;
 }
+/* For profile */
 .follows {
   display: flex;
   margin-right: auto;
@@ -390,6 +391,7 @@
 .follows p {
   padding: 5px;
 }
+/*  */
 .creating-post-block {
   display: block;
   width: 100%;

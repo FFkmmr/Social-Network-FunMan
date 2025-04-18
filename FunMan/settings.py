@@ -165,7 +165,7 @@ SOCIALACCOUNT_PROVIDERS = {
 }
 
 LOGIN_URL = '/authorization/'
-LOGIN_REDIRECT_URL = '/authorization/change-password/'
+LOGIN_REDIRECT_URL = '/'
 
 
 SITE_ID = 1
