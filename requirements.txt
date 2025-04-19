@@ -14,7 +14,7 @@ django-taggit==6.1.0
 gunicorn==23.0.0
 idna==3.10
 packaging==24.2
-psycopg2==2.9.10
+psycopg2-binary==2.9.6
 pycparser==2.22
 PyJWT==2.10.1
 requests==2.32.3

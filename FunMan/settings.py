@@ -1,12 +1,15 @@
 from pathlib import Path
 import os
 import django_heroku
+# import django.db
+import pprint
 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 import environ
 env = environ.Env()
-environ.Env.read_env()
-
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 clientGoogleSECRET = env('CLIENT_GOOGLE_SECRET')
 clientGoogleID = env('CLIENT_GOOGLE_ID')
@@ -14,14 +17,6 @@ clientGitHubSECRET = env('CLIENT_GITHUB_SECRET')
 clientGitHubID = env('CLIENT_GITHUB_ID')
 Email_Host_User = env('EMAIL_HOST_USER')
 Email_Host_Password = env('EMAIL_HOST_PASSWORD')
-UserFunbd = env('USERFUNDB')
-PasswordFunbd = env('PASSWORDFUNDB')
-
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-93ui96b9h!p#hu)0vx1j(^1bi2@x5t46v5ixn$eo$gk7q#4&$='
@@ -89,17 +84,40 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'FunMan.wsgi.application'
 
-
 # Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'fundb',
+#         'USER': 'Mitsuhano',
+#         'PASSWORD': 'Mit0316',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#         'OPTIONS': {
+#             'sslmode': 'disable',
+#         },
+#     }
+# }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'yklhWoFpTgjKpGSHNwINizxPmJWlrqGm',
+#         'HOST': 'postgresql://postgres:yklhWoFpTgjKpGSHNwINizxPmJWlrqGm@metro.proxy.rlwy.net:11750/railway',
+#         'PORT': '5432',
+        
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'funbd',
-        'USER': UserFunbd,
-        'PASSWORD': PasswordFunbd,
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'yklhWoFpTgjKpGSHNwINizxPmJWlrqGm',
+        'HOST': 'metro.proxy.rlwy.net',
+        'PORT': '11750',
+
     }
 }
 
@@ -208,11 +226,9 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedMa  nifestStaticFilesStorage'
 
 
-
-django_heroku.settings(locals())
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SESSION_COOKIE_SECURE = True
@@ -224,3 +240,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 SILENCED_SYSTEM_CHECKS = ["auth.E003"] 
+
+# print("DJANGO DATABASE SETTINGS:", django.db.connections.databases)
+print("DJANGO DATABASE SETTINGS:", pprint.pformat(DATABASES))
