@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from .forms import PostForm, CommentForm
 from .models import Post
+from authorization.models import Chat
 from .services import like_or_not, following_posts
 from django.http import JsonResponse
 
@@ -85,15 +86,6 @@ def lists(request):
 
 
 @login_required
-def messages(request):
-    return render(request, "home/messages.html")
-
-
-
-
-
-
-@login_required
 def profile(request):
     filter_type = request.GET.get('filter', 'posts')   
     
@@ -111,9 +103,6 @@ def profile(request):
         like_or_not(request, posts)
 
     return render(request, "home/profile.html", {"posts": posts, "filter": filter_type, 'stranger': False, "user": request.user})
-
-
-
 
 
 @login_required
@@ -136,8 +125,6 @@ def stranger_profile(request, user_id):
     return render(request, "home/profile.html", {"posts": posts, "filter": filter_type, 'stranger': stranger, 'user': user, "is_following": is_following})
 
 
-
-
 @login_required
 def follow_toggle(request, user_id):
     if request.method == "POST":
@@ -149,3 +136,32 @@ def follow_toggle(request, user_id):
             request.user.following.add(target)
             following = True
         return JsonResponse({"following": following})
+    
+
+@login_required
+def messages(request):
+    user = request.user
+    chats = user.chats.all()
+    filter_id = request.GET.get('filter', None)
+
+    chats_with_partners = []
+    for chat in chats:
+        other_user = chat.participants.exclude(id=user.id).first()
+        last_message = chat.messages.order_by('-timestamp').first()
+        chats_with_partners.append((chat, other_user, last_message))
+
+    selected_chat = None
+    chat_exception = False
+    if filter_id:
+        try:
+            selected_chat = chats.get(id=filter_id)
+        except Chat.DoesNotExist:
+            chat_exception = True
+
+    return render(request, "home/messages.html", {
+        'user': user,
+        'chats_with_partners': chats_with_partners,
+        'selected_chat': selected_chat,
+        'ChatException': chat_exception,
+    })
+

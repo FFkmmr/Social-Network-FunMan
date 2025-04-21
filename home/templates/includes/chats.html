@@ -1,0 +1,24 @@
+{% load static %}
+
+{% for chat, other_user, last_message in chats_with_partners %}
+    <a href="?filter={{chat.id}}">
+        <div class="chat-card">             
+            <div class="chat-header">
+                <span class="chat-with-user"> {{ other_user.username }} </span>
+                <span class="chat-date">{{ last_message.timestamp|date:"H:i" }}</span>
+            </div>
+            
+            <div class="chat-preview">
+                {% if last_message %}
+                    <span class="last-message">
+                        {% if last_message.sender == request.user %}
+                            You: {{ last_message.text|truncatechars:22 }}
+                        {% else %}
+                            {{ last_message.sender.username }}: {{ last_message.text|truncatechars:22 }}
+                        {% endif %}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+    </a>
+{% endfor %}

@@ -1,8 +1,6 @@
 from pathlib import Path
 import os
 import django_heroku
-# import django.db
-import pprint
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -85,46 +83,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'FunMan.wsgi.application'
 
 # Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'fundb',
-#         'USER': 'Mitsuhano',
-#         'PASSWORD': 'Mit0316',
-#         'HOST': '127.0.0.1',
-#         'PORT': '5432',
-#         'OPTIONS': {
-#             'sslmode': 'disable',
-#         },
-#     }
-# }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': 'postgres',
-#         'PASSWORD': 'yklhWoFpTgjKpGSHNwINizxPmJWlrqGm',
-#         'HOST': 'postgresql://postgres:yklhWoFpTgjKpGSHNwINizxPmJWlrqGm@metro.proxy.rlwy.net:11750/railway',
-#         'PORT': '5432',
-        
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'yklhWoFpTgjKpGSHNwINizxPmJWlrqGm',
-        'HOST': 'metro.proxy.rlwy.net',
-        'PORT': '11750',
-
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+        'OPTIONS': {'sslmode': 'disable'},
     }
 }
 
 
 # Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -142,11 +114,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Chisinau'
 
 USE_I18N = True
 
@@ -154,13 +124,9 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = '/static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User
@@ -240,6 +206,3 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 SILENCED_SYSTEM_CHECKS = ["auth.E003"] 
-
-# print("DJANGO DATABASE SETTINGS:", django.db.connections.databases)
-print("DJANGO DATABASE SETTINGS:", pprint.pformat(DATABASES))

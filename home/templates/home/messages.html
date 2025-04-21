@@ -59,60 +59,71 @@
 </div>
 {% endblock %}
 {% block center-block %}
-<div class="home-centre-block">
-    <div class="center-back-line">
-        <button class="circle-back-btn">
-            <img src="{% static 'home/img/back-btn.png' %}" class="back-btn" alt="">
-        </button>
-        <h4>Bookmarks</h4>
-    </div>
-    <search class="home-c-search-line">
-        <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
-        <p>Search...</p>
-    </search>
-    <h1 style="position: relative;color: white; top: 20%; left: 20px;">Save posts for later</h1>
-    <p style="position: relative;
-    width: 50%;
-    font-size: 12px;
-    color: #878787;
-    padding-bottom: 15px;
-    top: 22%;">Bookmark posts to easily find them again in the future.</p>
-
-</div>
+        {% if not user.chats.all %}
+            <div class="home-centre-block" style="width: 266px;">
+                <div class="center-back-line" style="background-color: transparent;">    
+                    <h4 class="messages-H1">Messages</h4>
+                    <img src="{% static 'home/img/settings-ico.png' %}" class="icons-messages" alt="">
+                    <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
+                </div>
+                <h2 style="position: relative;color: white; top: 14%;">Welcome to your
+                    inbox!</h2>
+                <p style="position: relative;
+                font-size: 12px;
+                color: #878787;
+                padding-bottom: 15px;
+                top: 16%;">Drop a line, share posts and more with private conversations between you and others on FM.</p>
+                <a href="" class="messages-button" style="position:relative; top: 19%;">Write a message</a>
+            </div>
+        {% else %}
+            <div class="home-centre-block" style="width: 266px;">
+                <div class="center-back-line" style="background-color: transparent; margin-bottom: 0;">    
+                    <h4 class="messages-H1">Messages</h4>
+                    <img src="{% static 'home/img/settings-ico.png' %}" class="icons-messages" alt="">
+                    <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
+                </div>
+                <search class="home-r-search-line" style="margin: 10px; width: auto; margin-top:0; margin-bottom: 30px;">
+                    <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
+                    <p>Search...</p>
+                </search>
+                <div class="messages-block"> 
+                    {% include "includes/chats.html" with chats_with_partners=chats_with_partners %} 
+                </div>
+            </div>
+        {% endif %}
 {% endblock %}
 {% block right-block %}
-<div class="home-right-block">
-    <search class="home-r-search-line">
-        <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
-        <p>Search...</p>
-    </search>
-    <div class="home-r-pinned-block">
-        <label>{ Pinned function }</label>
-        <img src="{% static 'home/img/pin-icon.png' %}" alt="">
-        <p>You can pin your <br>
-            desired tab, chats, or <br> 
-            notifications.</p>
-    </div>
-    <div class="home-r-recomendations">
-        <h3>Popular Authors</h3>
-        <div class="rec-card">
-            <img src="{% static 'home/img/camera.png' %}" alt="">
-            <h5>Popular Author_1 <br>
-            <p>AI, Anime, Physical...</p></h5>
-            <img src="{% static 'home/img/eye-icon.png' %}" alt="" class="eye-icon">
-        </div>
-        <div class="rec-card">
-            <img src="{% static 'home/img/camera.png' %}" alt="">
-            <h5>Popular Author_1 <br>
-            <p>AI, Anime, Physical...</p></h5>
-            <img src="{% static 'home/img/eye-icon.png' %}" alt="" class="eye-icon">
-        </div>
-        <div class="rec-card">
-            <img src="{% static 'home/img/camera.png' %}" alt="">
-            <h5>Popular Author_1 <br>
-            <p>AI, Anime, Physical...</p></h5>
-            <img src="{% static 'home/img/eye-icon.png' %}" alt="" class="eye-icon">
-        </div>
-    </div>
-</div>
+        {% if not user.chats.all %}
+            <div class="home-right-block" style="border-right: 4px solid #202020; width: 576px; padding-left: 100px;">
+                <h2 style="position: relative;color: white; top: 35%;">Select a message</h2>
+                <p style="position: relative;
+                width: 50%;
+                font-size: 12px;
+                color: #878787;
+                padding-bottom: 15px;
+                top: 37%;">Choose from your existing conversations, start a new one, or just keep swimming.</p>
+                <a href="" class="messages-button" style="position: relative; top: 38%;">New message</a>
+            </div>
+        {% else %}
+            {% if not selected_chat %}
+                <div class="home-right-block" style="border-right: 4px solid #202020; width: 576px; padding-left: 100px;">
+                    <h2 style="position: relative;color: white; top: 35%;">Select a message</h2>
+                    <p style="position: relative;
+                    width: 50%;
+                    font-size: 12px;
+                    color: #878787;
+                    padding-bottom: 15px;
+                    top: 37%;">Choose from your existing conversations, start a new one, or just keep swimming.</p>
+                    <a href="" class="messages-button" style="position: relative; top: 38%;">New message</a>
+                </div>
+            {% else %}
+                <div class="home-right-block" style="border-right: 4px solid #202020; width: 576px; padding: 0;">
+                    <div class="header-of-chat">
+                        <img>
+                        <span class="chat-with-user"> {{ other_user.username }} </span>
+                    </div> 
+
+                </div>
+            {% endif %}
+        {% endif %}
 {% endblock %}

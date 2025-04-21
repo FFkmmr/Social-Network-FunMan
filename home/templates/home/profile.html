@@ -75,8 +75,8 @@
         <h2 class="nickname"> {{ user }} </h2>
         <h2 class="UserID"> @{UserID} </h2>
         <div class="follows">
-            <p><p1 style="color: white;">{0}</p1> Following</p>
-            <p><p1 style="color: white;">{0}</p1> Followers</p>
+            <p><p1 style="color: white;">{{ user.following.count }}</p1> Following</p>
+            <p><p1 style="color: white;">{{ user.followers.count }}</p1> Followers</p>
         </div>
 
 

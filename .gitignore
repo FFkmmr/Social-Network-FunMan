@@ -1,39 +1,23 @@
-# Виртуальное окружение
-venv/
-env/
+# Python  
+__pycache__/  
+*.py[cod]  
 
-#
-FunMan/FunMan/passwords.py
+*.env  
+*.sqlite3  
+/secrets.json  
 
-# Файлы кэша
-__pycache__/
-*.pyc
-*.pyo
-
-# Конфиденциальные данные
-*.env
-*.sqlite3
-/secrets.json
-
-# Логи и дампы
-logs/
-*.log
-*.out
-*.pid
-*.dump
-
-# Статические и медиа-файлы (если хранятся локально)
-staticfiles/
-media/
-
-# IDE и система
-.vscode/
-.idea/
-.DS_Store
-**/migrations/
-!**/migrations/__init__.py
-
-docker-compose.yml
-*/postgres_data/
+# Логи и временные файлы  
+*.log  
+*.pid  
+*.dump  
 **utils.py
-**passwords.py
+**/passwords.py
+
+# IDE и системные файлы  
+.vscode/  
+.idea/  
+.DS_Store  
+
+# Миграции (кроме __init__.py)  
+**/migrations/  
+!**/migrations/__init__.py  

@@ -1,0 +1,20 @@
+{
+	"name": "Django Dev Container",
+	"dockerComposeFile": [
+	  "../docker-compose.yml"
+	],
+	"service": "web",
+	"workspaceFolder": "/app",
+	"shutdownAction": "stopCompose",
+	"forwardPorts": [8000],
+	"customizations": {
+	  "vscode": {
+		"extensions": [
+		  "ms-python.python",
+		  "batisteo.vscode-django",
+		  "formulahendry.auto-close-tag",
+		  "formulahendry.auto-rename-tag"
+		]
+	  }
+	}
+  }

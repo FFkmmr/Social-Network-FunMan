@@ -35,9 +35,12 @@
 }
 
 .logo-hp {
-  order: 1; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  order: 0;
   height: 100%;
-  width: 45%;
+  width: 50%;
   min-width: 500px;
 }
 .reg-block-hp {
