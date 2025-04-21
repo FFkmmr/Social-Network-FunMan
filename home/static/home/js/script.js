@@ -61,8 +61,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Create the post panel 
 document.addEventListener('DOMContentLoaded', function () {
-    const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"]');
-    const submitButtons = document.querySelectorAll('.submit-button');
+    const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"], textarea[name="message"], input[name="search"]');
+    const submitButtons = document.querySelectorAll('.submit-button, .style-none');
 
     if (textareaFields.length > 0) {
         window.addEventListener('load', postBtn);
@@ -77,9 +77,15 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isValid) {
                 button.removeAttribute('disabled');
                 button.classList.add('active');
+                if (button.classList.contains('style-none')) {
+                    button.src = '/static/home/img/paper-plane.png';
+                }
             } else {
                 button.setAttribute('disabled', true);
                 button.classList.remove('active');
+                if (button.classList.contains('style-none')) {
+                    button.src = '/static/home/img/paper-plane-black.png';
+                }
             }
         });
     }
@@ -156,10 +162,34 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
+});
 
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname.includes('/messages/')) {
+        const container = document.querySelector('.messages-area');
+        if (container) {
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 100); // можно увеличить при необходимости
+        }
+    }
 });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("user-search");
 
+    searchInput.addEventListener("input", function () {
+        const query = searchInput.value;
 
+        fetch(`/messages/?new-mess-filt=True&search=${encodeURIComponent(query)}`, {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+        .then(response => response.text())
+        
+
+    });
+});
 

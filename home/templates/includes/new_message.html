@@ -1,0 +1,48 @@
+{% load static %}
+
+<div class="black-transparent-backgr">
+    <div class="new-message-block">
+        <div class="header-new-message-block">
+            <button class="back-button closebtn-index" style="z-index: 100;" >
+                <img src="{% static 'authorization/img/close-button.png' %}" alt="">
+            </button>
+            <p>New message</p>
+            <button type="submit" class="submit-button" disabled>Next</button>
+        </div>
+        <search>
+            <form method="get" 
+            style="margin: 10px; 
+            width: auto; 
+            margin-top:0; 
+            margin-bottom: 30px;" 
+            class="search-line">
+                <img src="{% static 'home/img/search-icon.png' %}" alt="">
+                <input type="text"id="user-search" name="search" placeholder="Search..." 
+                style="border: none; 
+                width: 100%; 
+                outline: none; 
+                background: transparent; 
+                font-size: 16px; 
+                margin-left: 8px; 
+                color: white;">
+            </form>
+        </search>
+        <div style="position: absolute; top: 120px; width: 100%; height: 400px; overflow: auto;">
+            {% for user in usersA %}
+            <div style="height: fit-content;">    
+                <div class="content-in-the-post" style="height: fit-content; min-height: 70px; overflow: hidden;">
+                    <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">      
+                    <div class="post-content" style="height: fit-content;">
+                        <div class="post-upside">
+                            <div class="name-user-date">
+                                <a href="{% url 'stranger_profile' user.id %}">{{ user }}<a>
+                                <p>@UserID</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

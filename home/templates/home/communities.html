@@ -71,9 +71,8 @@
 {% endblock %}
 {% block right-block %}
 <div class="home-right-block">
-    <search class="home-r-search-line">
-        <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
-        <p>Search...</p>
+    <search style="margin-top: 20px;">
+        {% include "includes/search.html" %}
     </search>
     <div class="home-r-pinned-block">
         <label>{ Pinned function }</label>

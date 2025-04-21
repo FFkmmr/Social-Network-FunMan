@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from .forms import PostForm, CommentForm
 from .models import Post
-from authorization.models import Chat
+from authorization.models import Message
 from .services import like_or_not, following_posts
 from django.http import JsonResponse
 
@@ -142,26 +142,29 @@ def follow_toggle(request, user_id):
 def messages(request):
     user = request.user
     chats = user.chats.all()
-    filter_id = request.GET.get('filter', None)
+    filter_id = request.GET.get('filter')
+    new_mess_filt = request.GET.get('new-mess-filt')
 
-    chats_with_partners = []
-    for chat in chats:
-        other_user = chat.participants.exclude(id=user.id).first()
-        last_message = chat.messages.order_by('-timestamp').first()
-        chats_with_partners.append((chat, other_user, last_message))
+    chats_with_partners = [
+        (chat, chat.participants.exclude(id=user.id).first(), chat.messages.order_by('-timestamp').first())
+        for chat in chats
+    ]
 
-    selected_chat = None
-    chat_exception = False
-    if filter_id:
-        try:
-            selected_chat = chats.get(id=filter_id)
-        except Chat.DoesNotExist:
-            chat_exception = True
+    selected_chat = chats.filter(id=filter_id).first() if filter_id else None
+    selected_chat_partner = selected_chat.participants.exclude(id=user.id).first() if selected_chat else None
+
+    if request.method == 'POST' and selected_chat:
+        message_text = request.POST.get('message', '').strip()
+        if message_text:
+            Message.objects.create(chat=selected_chat, sender=user, text=message_text)
+            return redirect(f"{request.path}?filter={selected_chat.id}")
 
     return render(request, "home/messages.html", {
         'user': user,
+        'usersA': User.objects.all(),
         'chats_with_partners': chats_with_partners,
         'selected_chat': selected_chat,
-        'ChatException': chat_exception,
+        'selected_chat_partner': selected_chat_partner,
+        'new_mess_filt': new_mess_filt,
     })
 

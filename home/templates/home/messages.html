@@ -60,11 +60,13 @@
 {% endblock %}
 {% block center-block %}
         {% if not user.chats.all %}
-            <div class="home-centre-block" style="width: 266px;">
+            <div class="home-centre-block" style="width: 266px; padding-left: 20px;">
                 <div class="center-back-line" style="background-color: transparent;">    
                     <h4 class="messages-H1">Messages</h4>
                     <img src="{% static 'home/img/settings-ico.png' %}" class="icons-messages" alt="">
-                    <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
+                    <a href="?new-mess-filt=True">
+                        <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
+                    </a>
                 </div>
                 <h2 style="position: relative;color: white; top: 14%;">Welcome to your
                     inbox!</h2>
@@ -80,16 +82,18 @@
                 <div class="center-back-line" style="background-color: transparent; margin-bottom: 0;">    
                     <h4 class="messages-H1">Messages</h4>
                     <img src="{% static 'home/img/settings-ico.png' %}" class="icons-messages" alt="">
-                    <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
-                </div>
-                <search class="home-r-search-line" style="margin: 10px; width: auto; margin-top:0; margin-bottom: 30px;">
-                    <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
-                    <p>Search...</p>
+                    <a href="?new-mess-filt=True">
+                        <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
+                    </a>
+                    </div>
+                <search>
+                    {% include "includes/search.html" %}
                 </search>
-                <div class="messages-block"> 
-                    {% include "includes/chats.html" with chats_with_partners=chats_with_partners %} 
+                <div class="messages-block">
+                    {% include "includes/chats.html" with chats_with_parters=chats_with_partners %} 
                 </div>
             </div>
+            <div></div>
         {% endif %}
 {% endblock %}
 {% block right-block %}
@@ -119,11 +123,41 @@
             {% else %}
                 <div class="home-right-block" style="border-right: 4px solid #202020; width: 576px; padding: 0;">
                     <div class="header-of-chat">
-                        <img>
-                        <span class="chat-with-user"> {{ other_user.username }} </span>
-                    </div> 
-
+                        <img src="{% static 'home/img/camera.png' %}" alt="" style="margin: 10px;" class="avatar-in-post">
+                        <span class="chat-with-user"> {{ selected_chat_partner }} </span>
+                    </div>
+                    <div class="messages-area">
+                        {% for message in selected_chat.messages.all %}
+                            <div class="message">
+                                <div class="message-header">
+                                    <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">
+                                </div>
+                                <div class="message-body">
+                                    <span class="username">{{ message.sender.username }}</span>
+                                    <span style="white-space: pre-wrap; 
+                                    word-wrap: break-word;">{{ message.text }}</span>
+                                    <div class="message-info">
+                                        <span class="timestamp">{{ message.timestamp|date:"H:i" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p>No messages yet.</p>
+                        {% endfor %}
+                    </div>
+                    <form method="post" class="create-message-block">
+                        {% csrf_token %}
+                        <textarea
+                            name="message"
+                            class="input-message"
+                            placeholder="Type your message..."
+                            rows="6"
+                        ></textarea>
+                        <button type="submit">
+                            <img class="style-none" src="{% static 'home/img/paper-plane-black.png' %}" alt="Send">
+                        </button>
+                    </form>
                 </div>
-            {% endif %}
+                {% endif %}
         {% endif %}
 {% endblock %}
