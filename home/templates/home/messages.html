@@ -75,7 +75,7 @@
                 color: #878787;
                 padding-bottom: 15px;
                 top: 16%;">Drop a line, share posts and more with private conversations between you and others on FM.</p>
-                <a href="" class="messages-button" style="position:relative; top: 19%;">Write a message</a>
+                <a href="{% url 'new_message' %}" class="messages-button" style="position:relative; top: 19%;">Write a message</a>
             </div>
         {% else %}
             <div class="home-centre-block" style="width: 266px;">
@@ -87,7 +87,7 @@
                     </a>
                     </div>
                 <search>
-                    {% include "includes/search.html" %}
+                    <!-- {% include "includes/search.html" %} -->
                 </search>
                 <div class="messages-block">
                     {% include "includes/chats.html" with chats_with_parters=chats_with_partners %} 
@@ -106,7 +106,7 @@
                 color: #878787;
                 padding-bottom: 15px;
                 top: 37%;">Choose from your existing conversations, start a new one, or just keep swimming.</p>
-                <a href="" class="messages-button" style="position: relative; top: 38%;">New message</a>
+                <a href="{% url 'new_message' %}" class="messages-button" style="position: relative; top: 38%;">New message</a>
             </div>
         {% else %}
             {% if not selected_chat %}
