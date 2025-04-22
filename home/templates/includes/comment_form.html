@@ -142,7 +142,7 @@
                 <div class="post-upside">
                     <div class="name-user-date">
                     <h3>{{ post.user }}</h3>
-                        <p>@UserID</p>
+                        <p>@{{ user.id|stringformat:"04d" }}</p>
                         <h5 style="font-size: 12px;">.</h5>
                         {{ post.get_time_since  }}
                     </div>
@@ -169,7 +169,7 @@
                     <div class="post-upside">
                         <div class="name-user-date">
                         <h3>{{ user }}</h3>
-                            <p>@UserID</p>
+                            <p>@{{ user.id|stringformat:"04d" }}</p>
                         </div>
                     </div>
                     {{ form.body }}

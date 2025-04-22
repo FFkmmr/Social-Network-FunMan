@@ -1,9 +1,12 @@
+{% extends 'home/index.html' %}
 {% load static %}
 
+
+{% block center-block %}
 <div class="black-transparent-backgr">
     <div class="new-message-block">
         <div class="header-new-message-block">
-            <button class="back-button closebtn-index" style="z-index: 100;" >
+            <button class="back-button" id="new_comm_btn" style="z-index: 100;">
                 <img src="{% static 'authorization/img/close-button.png' %}" alt="">
             </button>
             <p>New message</p>
@@ -28,16 +31,18 @@
             </form>
         </search>
         <div style="position: absolute; top: 120px; width: 100%; height: 400px; overflow: auto;">
-            {% for user in usersA %}
-            <div style="height: fit-content;">    
-                <div class="content-in-the-post" style="height: fit-content; min-height: 70px; overflow: hidden;">
-                    <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">      
-                    <div class="post-content" style="height: fit-content;">
-                        <div class="post-upside">
-                            <div class="name-user-date">
-                                <a href="{% url 'stranger_profile' user.id %}">{{ user }}<a>
-                                <p>@UserID</p>
-                            </div>
+            {% for user in users %}
+            <div style="height: fit-content;">
+                <div class="user-select">
+                    <div class="content-in-the-post" style="height: fit-content; min-height: 70px; overflow: hidden;">
+                        <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">      
+                        <div class="post-content" style="height: fit-content;">
+                            <div class="post-upside">
+                                <div class="name-user-date">
+                                    <a href="{% url 'stranger_profile' user.id %}" class="user-select-name">{{ user }}<a>
+                                    <p>@{{ user.id|stringformat:"04d" }}</p>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -46,3 +51,4 @@
         </div>
     </div>
 </div>
+{% endblock %}

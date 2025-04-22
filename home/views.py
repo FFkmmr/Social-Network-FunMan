@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
 from .forms import PostForm, CommentForm
 from .models import Post
-from authorization.models import Message
+from authorization.models import Message, Chat
 from .services import like_or_not, following_posts
 from django.http import JsonResponse
 
@@ -143,7 +143,6 @@ def messages(request):
     user = request.user
     chats = user.chats.all()
     filter_id = request.GET.get('filter')
-    new_mess_filt = request.GET.get('new-mess-filt')
 
     chats_with_partners = [
         (chat, chat.participants.exclude(id=user.id).first(), chat.messages.order_by('-timestamp').first())
@@ -165,6 +164,47 @@ def messages(request):
         'chats_with_partners': chats_with_partners,
         'selected_chat': selected_chat,
         'selected_chat_partner': selected_chat_partner,
-        'new_mess_filt': new_mess_filt,
     })
 
+
+def new_message(request):
+    users = User.objects.all()
+    context = {
+        'users': users
+    }
+    return render(request, 'home/new_message.html', context)
+
+
+def filter_users(request):
+    search = request.GET.get('search', '')
+    users = User.objects.filter(username__icontains=search)
+    return JsonResponse({
+        'users': list(users.values('id', 'username'))  
+    })
+
+
+def new_chat(request, user_id):
+
+    target_user = get_object_or_404(User, id=user_id)
+    chats = Chat.objects.filter(participants=request.user).filter(participants=target_user)
+
+    if chats.exists():
+        chat = chats.first()
+    else:
+        chat = Chat.objects.create()
+        chat.participants.add(request.user, target_user)
+
+    return redirect(f'/messages/?filter={chat.id}')
+
+
+def get_users(request):
+    users = list(User.objects.values('id', 'username'))
+    return JsonResponse(users, safe=False)
+
+
+def delete_chat(request, user_id):
+    chat = Chat.objects.filter(participants=request.user).filter(participants__id=user_id).first()    
+    if chat:
+        chat.delete()
+        
+    return redirect('messages')

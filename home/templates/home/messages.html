@@ -64,7 +64,7 @@
                 <div class="center-back-line" style="background-color: transparent;">    
                     <h4 class="messages-H1">Messages</h4>
                     <img src="{% static 'home/img/settings-ico.png' %}" class="icons-messages" alt="">
-                    <a href="?new-mess-filt=True">
+                    <a href="{% url 'new_message' %}">
                         <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
                     </a>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="center-back-line" style="background-color: transparent; margin-bottom: 0;">    
                     <h4 class="messages-H1">Messages</h4>
                     <img src="{% static 'home/img/settings-ico.png' %}" class="icons-messages" alt="">
-                    <a href="?new-mess-filt=True">
+                    <a href="{% url 'new_message' %}">
                         <img src="{% static 'home/img/message-plus-ico.png' %}" class="icons-messages" style="margin-right: 15px;" alt="">
                     </a>
                     </div>
@@ -125,6 +125,15 @@
                     <div class="header-of-chat">
                         <img src="{% static 'home/img/camera.png' %}" alt="" style="margin: 10px;" class="avatar-in-post">
                         <span class="chat-with-user"> {{ selected_chat_partner }} </span>
+                        {% if selected_chat_partner %}
+                            <a href="{% url 'delete_chat' selected_chat_partner.id %}">
+                                <img style='height: 30px; width: 30px;' src="{% static 'home/img/trash.png' %}" alt="">
+                            </a>
+                        {% else %}
+                            <a href="{% url 'delete_chat' user.id %}">
+                                <img style='height: 30px; width: 30px;' src="{% static 'home/img/trash.png' %}" alt="">
+                            </a>
+                        {% endif %}
                     </div>
                     <div class="messages-area">
                         {% for message in selected_chat.messages.all %}
@@ -141,8 +150,6 @@
                                     </div>
                                 </div>
                             </div>
-                        {% empty %}
-                            <p>No messages yet.</p>
                         {% endfor %}
                     </div>
                     <form method="post" class="create-message-block">

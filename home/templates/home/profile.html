@@ -73,7 +73,7 @@
             <button class="edit-profile">Edit profile</button>
         </div>
         <h2 class="nickname"> {{ user }} </h2>
-        <h2 class="UserID"> @{UserID} </h2>
+        <h2 class="UserID"> @{{ user.id|stringformat:"04d" }} </h2>
         <div class="follows">
             <p><p1 style="color: white;">{{ user.following.count }}</p1> Following</p>
             <p><p1 style="color: white;">{{ user.followers.count }}</p1> Followers</p>
@@ -96,13 +96,16 @@
             </button>
             <h4>Profile</h4>
         </div>
-        <div class="background-profile"></div>        
+        <div class="background-profile"></div>
         <div class="profile-and-edit-profile">
             <img class="avatar-in-profile" src="{% static 'home/img/camera.png' %}" alt="">
-            <button class="edit-profile follow-btn" data-user-id="{{ user.id }}" >{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+            <div>
+                <a href="{% url 'new_chat' user.id %}"><button class="edit-profile" data-user-id="{{ user.id }}" >Message</button></a>
+                <button class="edit-profile follow-btn" data-user-id="{{ user.id }}" >{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+            </div>
         </div>
         <h2 class="nickname"> {{ user }} </h2>
-        <h2 class="UserID"> @{UserID} </h2>
+        <h2 class="UserID"> @{{ user.id|stringformat:"04d" }} </h2>
         <div class="follows">
             <p><p1 style="color: white;">{{ user.following.count }}</p1> Following</p>
             <p><p1 style="color: white;">{{ user.followers.count }}</p1> Followers</p>

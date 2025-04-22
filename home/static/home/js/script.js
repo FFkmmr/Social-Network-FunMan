@@ -21,9 +21,15 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = '../';
         });
     }
+
+    const closebtnmess = document.getElementById('new_comm_btn');
+    if (closebtnmess != null) {
+        closebtnmess.addEventListener('click', () => {
+            window.location.href = '../messages';
+        });
+    }
     
     const backButton = document.querySelector(".circle-back-btn");
-
     if (backButton) {
         backButton.addEventListener("click", () => {
             window.location.href = "../";
@@ -70,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
             textarea.addEventListener('input', postBtn);
         });
     }
+    
     function postBtn() {
         const isValid = Array.from(textareaFields).some(textarea => textarea.value.trim() !== "");
         
@@ -89,6 +96,70 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+    submitButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            if (textareaFields.length > 0) {
+                textareaFields.forEach(textarea => {
+                    fetch('/get_users/')
+                    .then(res => res.json())
+                    .then(users => {
+                        for (const user of users) {
+                            if (textarea.value.trim() === user.username) {
+                                window.location.href = '../new_chat/' + user.id;
+                                break;
+                            }
+                        }   
+                    });
+                });
+            }
+        })
+    });
+    const searchInput = document.getElementById("user-search");
+    const usersContainer = document.querySelector("[style*='top: 120px']");
+
+    usersContainer.addEventListener("click", (e) => {
+        const userSelect = e.target.closest(".user-select");
+        if (!userSelect) return;
+
+        const userNameElement = userSelect.querySelector(".user-select-name");
+        if (userNameElement) {
+            searchInput.value = userNameElement.textContent.trim();
+            postBtn();
+        }
+    });
+
+    if (searchInput.value !== "") {
+        filterUsers({ target: searchInput });
+    }
+
+    searchInput.addEventListener("input", filterUsers);
+
+    async function filterUsers(e) {
+        const response = await fetch(`/filter_users/?search=${encodeURIComponent(e.target.value)}`);
+        const data = await response.json();
+
+        usersContainer.innerHTML = data.users.map(user => {
+            const formattedId = String(user.id).padStart(4, "0");
+            return `
+                <div style="height: fit-content;">    
+                    <div class="user-select">
+                        <div class="content-in-the-post" style="height: fit-content; min-height: 70px; overflow: hidden;">
+                            <img class="avatar-in-post" src="/static/home/img/camera.png" alt="">  
+                            <div class="post-content" style="height: fit-content;">
+                                <div class="post-upside">
+                                    <div class="name-user-date">
+                                        <a href="/stranger_profile/${user.id}" class="user-select-name">${user.username}</a>
+                                        <p>@${formattedId}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+    
 });
 
 
@@ -164,32 +235,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+
 document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('/messages/')) {
         const container = document.querySelector('.messages-area');
         if (container) {
             setTimeout(() => {
                 container.scrollTop = container.scrollHeight;
-            }, 100); // можно увеличить при необходимости
+            }, 50);
         }
     }
 });
 
 
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("user-search");
-
-    searchInput.addEventListener("input", function () {
-        const query = searchInput.value;
-
-        fetch(`/messages/?new-mess-filt=True&search=${encodeURIComponent(query)}`, {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        })
-        .then(response => response.text())
-        
-
-    });
-});
 

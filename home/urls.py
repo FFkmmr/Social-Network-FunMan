@@ -12,8 +12,10 @@ urlpatterns = [
     path('<int:post_id>/comment', views.write_comment, name='add_comment'),
     path('stranger_profile/<int:user_id>/', views.stranger_profile, name='stranger_profile'),
     path('stranger_profile/', views.redirect_to_home, name='redirect_to_home'),
-
-
     path("follow/<int:user_id>/", views.follow_toggle, name="follow_toggle"),
-    
+    path("new_message/", views.new_message, name="new_message"),
+    path('filter_users/', views.filter_users, name='filter_users'),
+    path('new_chat/<int:user_id>', views.new_chat, name='new_chat'),
+    path('get_users/', views.get_users, name='get_users'),
+    path('delete_chat/<int:user_id>', views.delete_chat, name='delete_chat'),
 ]
