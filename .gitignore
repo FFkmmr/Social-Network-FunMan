@@ -1,8 +1,7 @@
 # Python  
 __pycache__/  
 *.py[cod]  
-
-*.env  
+  
 *.sqlite3  
 /secrets.json  
 
@@ -17,3 +16,5 @@ __pycache__/
 .vscode/  
 .idea/  
 .DS_Store  
+venv/
+*/venv/

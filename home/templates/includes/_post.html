@@ -9,7 +9,7 @@
                 <div class="post-upside">
                     <div class="name-user-date">
                         <a href="{% url 'stranger_profile' post.user.id %}">{{ post.user }}</a>
-                        <p>@{{ user.id|stringformat:"04d" }}</p>
+                        <p>@{{ post.user.id|stringformat:"04d" }}</p>
                         <h5 style="font-size: 12px;">.</h5>
                         {{ post.get_time_since  }}
                     </div>

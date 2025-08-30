@@ -662,10 +662,6 @@
   height: fit-content;
   margin-top: 0;
 }
-
-
-
-
 .black-transparent-backgr {
   position: absolute;
   width: 100%;
@@ -709,4 +705,13 @@
 }
 .search-line ::placeholder {
   color: #727272;
+}
+/* Bookmarks */
+.empty-bookmarks-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: #2C2C2C;
 }
