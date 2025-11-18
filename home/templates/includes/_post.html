@@ -14,7 +14,43 @@
                         {{ post.get_time_since  }}
                     </div>
                 </div>
+                
+                {% if post.content %}
                 <p class="content-post">{{ post.content|linebreaksbr }}</p>
+                {% endif %}
+                
+                <!-- Медиа контент -->
+                {% if post.has_media %}
+                <div class="post-media-container">
+                    {% with media_list=post.get_media %}
+                        <div class="post-media-grid {% if media_list|length == 1 %}single{% elif media_list|length == 2 %}double{% elif media_list|length == 3 %}triple{% else %}multiple{% endif %}">
+                            {% for media in media_list %}
+                                {% if forloop.counter <= 4 %}
+                                    <div class="post-media-item {% if media_list|length == 1 %}single{% endif %}" data-media-index="{{ forloop.counter0 }}" data-post-id="{{ post.id }}">
+                                        {% if media.is_image %}
+                                            <img src="{{ media.file.url }}" alt="Post image" class="clickable-media">
+                                        {% elif media.is_video %}
+                                            <video controls preload="metadata">
+                                                <source src="{{ media.file.url }}" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        {% endif %}
+                                        
+                                        {% if forloop.counter == 4 and media_list|length > 4 %}
+                                            <div class="media-count-overlay" data-media-index="3" data-post-id="{{ post.id }}">
+                                                +{{ media_list|length|add:"-4" }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <script type="application/json" class="post-media-data" data-post-id="{{ post.id }}">
+                            [{% for m in media_list %}"{{ m.file.url }}"{% if not forloop.last %},{% endif %}{% endfor %}]
+                        </script>
+                    {% endwith %}
+                </div>
+                {% endif %}
                 <div class="feedback_panel">
                     <a style="display: flex; gap: 5px;" href="{% url 'add_comment' post.pk %}">
                         <img class="comments" 

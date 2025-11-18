@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="{% static 'authorization/img/favicon.ico' %}"> 
     <link rel="stylesheet" href="{% static 'home/css/style.css' %}?{% cache_boost %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'home/css/media.css' %}">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -18,5 +19,6 @@
     </div>
     {% block add_comment %}    {% endblock %}
 <script src="{% static 'home/js/script.js' %}"></script>
+{% block extra_js %}{% endblock %}
 </body>
 </html>

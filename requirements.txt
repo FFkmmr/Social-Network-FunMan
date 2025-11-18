@@ -8,7 +8,6 @@ Django==5.1.6
 django-allauth==65.5.0
 django-ckeditor==6.7.2
 django-environ==0.12.0
-django-heroku==0.3.1
 django-js-asset==3.0.1
 django-taggit==6.1.0
 gunicorn==23.0.0
@@ -22,3 +21,4 @@ sqlparse==0.5.3
 typing_extensions==4.13.2
 urllib3==2.3.0
 whitenoise==6.9.0
+Pillow==10.2.0

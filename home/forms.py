@@ -6,7 +6,6 @@ class PostForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={
         'placeholder': 'Let\'s type something',
         'title': 'Content',
-        'required': 'True',
         'class': 'custom-input',
     }))
     tags = TagField(required=False, widget=forms.TextInput(attrs={
