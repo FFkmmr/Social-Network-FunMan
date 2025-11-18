@@ -11,7 +11,8 @@ class PostForm(forms.ModelForm):
     tags = TagField(required=False, widget=forms.TextInput(attrs={
         'placeholder': 'Tags',
         'title': 'Some tags maybe?',
-        'class': 'custom-input'
+        'class': 'custom-input',
+        'style': 'height: 35px; padding-top: 0px;'
     }))
     
     class Meta:

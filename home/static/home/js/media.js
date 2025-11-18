@@ -227,6 +227,9 @@ function initializeModalHandlers() {
         if (e.target.classList.contains('media-modal')) {
             closeMediaModal();
         }
+        if (e.target.classList.contains('modal-content-container')) {
+            closeMediaModal();
+        }
     });
     
     // Закрытие по Escape
@@ -349,6 +352,24 @@ function closeMediaModal() {
 function setupPostMediaDisplay() {
     document.querySelectorAll('.clickable-media').forEach(img => {
         img.addEventListener('click', function() {
+            const mediaItem = this.closest('.post-media-item');
+            const postId = mediaItem.dataset.postId;
+            const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
+            
+            const mediaDataScript = document.querySelector(`.post-media-data[data-post-id="${postId}"]`);
+            if (mediaDataScript) {
+                const mediaUrls = JSON.parse(mediaDataScript.textContent);
+                openMediaModal(mediaUrls, mediaIndex);
+            }
+        });
+    });
+    
+    // Обработка кликов на видео в постах - только открытие галереи
+    document.querySelectorAll('.post-media-item video').forEach(video => {
+        video.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
             const mediaItem = this.closest('.post-media-item');
             const postId = mediaItem.dataset.postId;
             const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);

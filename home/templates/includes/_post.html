@@ -30,10 +30,11 @@
                                         {% if media.is_image %}
                                             <img src="{{ media.file.url }}" alt="Post image" class="clickable-media">
                                         {% elif media.is_video %}
-                                            <video controls preload="metadata">
+                                            <video preload="metadata">
                                                 <source src="{{ media.file.url }}" type="video/mp4">
                                                 Your browser does not support the video tag.
                                             </video>
+                                            <div class="video-overlay">▶</div>
                                         {% endif %}
                                         
                                         {% if forloop.counter == 4 and media_list|length > 4 %}

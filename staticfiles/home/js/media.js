@@ -33,14 +33,14 @@ function initializeFormSubmission() {
     const form = document.querySelector('form');
     if (form) {
         form.addEventListener('submit', function(e) {
-            // Проверяем, что файлы синхронизированы с input
+            // Проверка, что файлы синхронизированы с input
             updateFileInput();
             
             // Добавляем индикатор загрузки
             const submitButton = document.getElementById('postButton');
             if (submitButton) {
                 submitButton.disabled = true;
-                submitButton.textContent = 'Posting...';
+                submitButton.textContent = 'Posting';
                 
                 // Возвращаем обычное состояние через 5 секунд (на случай ошибки)
                 setTimeout(() => {
@@ -174,12 +174,10 @@ function createPreviewItem(file, index) {
 
 // Удаление файла
 function removeFile(index) {
-    if (index >= 0 && index < selectedFiles.length) {
-        selectedFiles.splice(index, 1);
-        updateFileInput();
-        updateMediaPreview();
-        updatePostButton();
-    }
+    selectedFiles.splice(index, 1);
+    updateFileInput();
+    updateMediaPreview();
+    updatePostButton();
 }
 
 // Обновление input файлов
@@ -190,10 +188,6 @@ function updateFileInput() {
     const dt = new DataTransfer();
     selectedFiles.forEach(file => dt.items.add(file));
     mediaInput.files = dt.files;
-    
-    // Для отладки
-    console.log('Files in selectedFiles:', selectedFiles.length);
-    console.log('Files in input:', mediaInput.files.length);
 }
 
 // Валидация кнопки поста
@@ -215,9 +209,9 @@ function updatePostButton() {
     if (!contentInput || !postButton) return;
     
     const hasContent = contentInput.value.trim().length > 0;
-    const hasMedia = selectedFiles.length > 0;
+    // Теперь текст обязателен, медиа - опционально
     
-    if (hasContent || hasMedia) {
+    if (hasContent) {
         postButton.disabled = false;
         postButton.classList.add('has-content');
     } else {
@@ -364,6 +358,76 @@ function setupPostMediaDisplay() {
                 const mediaUrls = JSON.parse(mediaDataScript.textContent);
                 openMediaModal(mediaUrls, mediaIndex);
             }
+        });
+    });
+    
+    // Обработка кликов на видео
+    document.querySelectorAll('.post-media-item video').forEach(video => {
+        video.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Определяем область кнопки play (круг в центре, примерно 60px диаметр)
+            const playButtonRadius = 30;
+            const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+            
+            // Проверяем, находится ли клик в области контролов (нижние 40px)
+            const isControlsArea = y > rect.height - 40;
+            
+            // Если клик НЕ в области кнопки play И НЕ в области контролов - открываем галерею
+            if (distanceFromCenter > playButtonRadius && !isControlsArea) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const mediaItem = this.closest('.post-media-item');
+                const postId = mediaItem.dataset.postId;
+                const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
+                
+                const mediaDataScript = document.querySelector(`.post-media-data[data-post-id="${postId}"]`);
+                if (mediaDataScript) {
+                    const mediaUrls = JSON.parse(mediaDataScript.textContent);
+                    openMediaModal(mediaUrls, mediaIndex);
+                }
+            }
+            // Иначе позволяем стандартное поведение (play/pause или контролы)
+        });
+    });
+    
+    // Обработка кликов на видео
+    document.querySelectorAll('.post-media-item video').forEach(video => {
+        video.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Определяем область кнопки play (круг в центре, примерно 60px диаметр)
+            const playButtonRadius = 30;
+            const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+            
+            // Проверяем, находится ли клик в области контролов (нижние 40px)
+            const isControlsArea = y > rect.height - 40;
+            
+            // Если клик НЕ в области кнопки play И НЕ в области контролов - открываем галерею
+            if (distanceFromCenter > playButtonRadius && !isControlsArea) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const mediaItem = this.closest('.post-media-item');
+                const postId = mediaItem.dataset.postId;
+                const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
+                
+                const mediaDataScript = document.querySelector(`.post-media-data[data-post-id="${postId}"]`);
+                if (mediaDataScript) {
+                    const mediaUrls = JSON.parse(mediaDataScript.textContent);
+                    openMediaModal(mediaUrls, mediaIndex);
+                }
+            }
+            // Иначе позволяем стандартное поведение (play/pause или контролы)
         });
     });
     
