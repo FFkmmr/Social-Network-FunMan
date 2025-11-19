@@ -50,6 +50,15 @@
   height: 90px;
   width: 95px;
 }
+.header {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  background-color: #2C2C2C;
+  justify-content: flex-end;
+  border-right: 4px solid #202020;
+  padding-left: 10px;
+}
 .home-left-block {
   display: flex;
   height: 100%;
@@ -57,7 +66,6 @@
   background-color: #2C2C2C;
   align-items: center;
   flex-flow: column;
-  border-right: 4px solid #202020;
   padding-right: 20px;
   user-select: none;
 }
@@ -512,6 +520,13 @@
   height: 25px; 
   margin: 5px;
 }
+.block-of-home-right-block {
+  display: flex;
+  flex: 1;
+  height: 100%;
+  background-color: #2C2C2C;
+  padding-right: 10px;
+}
 .home-right-block {
   height: 100%;
   width: 240px;
@@ -526,7 +541,7 @@
   overflow: auto;
   overflow-x: hidden;
   height: 100%;
-  width: 610px;
+  width: 620px;
   background-color: #2C2C2C;
 }
 .home-centre-block::-webkit-scrollbar {
@@ -641,12 +656,12 @@
   padding-right: 10px;
 }
 .messages-area {
-  height: 75vh;
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   padding: 10px;
   width: 570px;
+  flex: 1;
 }
 .message {
   display: flex;
@@ -660,6 +675,7 @@
   width: 100%;
   height: fit-content;
   margin-top: 0;
+  margin-bottom: 10px;
 }
 .black-transparent-backgr {
   position: absolute;

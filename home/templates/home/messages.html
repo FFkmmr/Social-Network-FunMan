@@ -3,61 +3,7 @@
 
 {% block title %} Bookmarks {% endblock %}
 
-{% block left-block %}
-<div class="home-left-block">
-    <img src="{% static 'home/img/v24_18.png' %}" alt="" class="home-logo">
-    <nav>
-        <button class="nav-btn" id="home">
-            <div class="vis-nav-btn">
-                <img src="{% static 'home/img/home-icon.png' %}" alt=""> 
-                <p>Home</p>
-            </div>
-        </button>
-        <button class="nav-btn" id="messages">
-            <div class="vis-nav-btn">
-                <img src="{% static 'home/img/messages-icon.png' %}" alt=""> 
-                <p>Messages</p>
-            </div>
-        </button>
-        <button class="nav-btn" id="profile">
-            <div class="vis-nav-btn">
-                <img src="{% static 'home/img/profile-icon.png' %}" alt=""> 
-                <p>Profile</p>
-            </div>
-        </button>
-        <button class="nav-btn" id="search">
-            <div class="vis-nav-btn">
-                <img src="{% static 'home/img/search-icon.png' %}" alt=""> 
-                <p>Search</p>
-            </div>
-        </button>
-        <button class="nav-btn" id="bookmarks">
-            <div class="vis-nav-btn">
-                <img src="{% static 'home/img/bookmarks-icon.png' %}" alt=""> 
-                <p>Bookmarks</p>
-            </div>
-        </button>
-        <button class="nav-btn" id="community">
-            <div class="vis-nav-btn">
-                <img src="{% static 'home/img/community-icon.png' %}" alt=""> 
-                <p>Community</p>
-            </div>
-        </button>
-        <button class="nav-btn" id="lists">
-            <div class="vis-nav-btn">
-                <img src="{% static 'home/img/lists-icon.png' %}" alt=""> 
-                <p>Lists</p>
-            </div>
-        </button>
-        <button class="nav-btn" id="post" style="margin-top: 50px;">
-            <div class="vis-nav-btn" style="height: 50px; width: 100%;">
-                <p>Post</p>
-            </div>
-        </button>
-    </nav>
-    
-</div>
-{% endblock %}
+
 {% block center-block %}
         {% if not user.chats.all %}
             <div class="home-centre-block" style="width: 266px; padding-left: 20px;">
@@ -98,7 +44,7 @@
 {% endblock %}
 {% block right-block %}
         {% if not user.chats.all %}
-            <div class="home-right-block" style="border-right: 4px solid #202020; width: 576px; padding-left: 100px;">
+            <div class="home-right-block" style="border-right: 4px solid #202020; width: 594px; padding-left: 100px;">
                 <h2 style="position: relative;color: white; top: 35%;">Select a message</h2>
                 <p style="position: relative;
                 width: 50%;
@@ -110,7 +56,7 @@
             </div>
         {% else %}
             {% if not selected_chat %}
-                <div class="home-right-block" style="border-right: 4px solid #202020; width: 576px; padding-left: 100px;">
+                <div class="home-right-block" style="border-right: 4px solid #202020; width: 594px; padding-left: 100px;">
                     <h2 style="position: relative;color: white; top: 35%;">Select a message</h2>
                     <p style="position: relative;
                     width: 50%;
@@ -121,7 +67,7 @@
                     <a href="" class="messages-button" style="position: relative; top: 38%;">New message</a>
                 </div>
             {% else %}
-                <div class="home-right-block" style="border-right: 4px solid #202020; width: 576px; padding: 0;">
+                <div class="home-right-block" style="border-right: 4px solid #202020; width: 594px; padding: 0; display: flex; flex-direction: column;">
                     <div class="header-of-chat">
                         <img src="{% static 'home/img/camera.png' %}" alt="" style="margin: 10px;" class="avatar-in-post">
                         <span class="chat-with-user"> {{ selected_chat_partner }} </span>

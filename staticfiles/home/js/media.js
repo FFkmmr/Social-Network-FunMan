@@ -227,6 +227,9 @@ function initializeModalHandlers() {
         if (e.target.classList.contains('media-modal')) {
             closeMediaModal();
         }
+        if (e.target.classList.contains('modal-content-container')) {
+            closeMediaModal();
+        }
     });
     
     // Закрытие по Escape
@@ -361,73 +364,21 @@ function setupPostMediaDisplay() {
         });
     });
     
-    // Обработка кликов на видео
+    // Обработка кликов на видео в постах - только открытие галереи
     document.querySelectorAll('.post-media-item video').forEach(video => {
         video.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
+            e.preventDefault();
+            e.stopPropagation();
             
-            // Определяем область кнопки play (круг в центре, примерно 60px диаметр)
-            const playButtonRadius = 30;
-            const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+            const mediaItem = this.closest('.post-media-item');
+            const postId = mediaItem.dataset.postId;
+            const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
             
-            // Проверяем, находится ли клик в области контролов (нижние 40px)
-            const isControlsArea = y > rect.height - 40;
-            
-            // Если клик НЕ в области кнопки play И НЕ в области контролов - открываем галерею
-            if (distanceFromCenter > playButtonRadius && !isControlsArea) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const mediaItem = this.closest('.post-media-item');
-                const postId = mediaItem.dataset.postId;
-                const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
-                
-                const mediaDataScript = document.querySelector(`.post-media-data[data-post-id="${postId}"]`);
-                if (mediaDataScript) {
-                    const mediaUrls = JSON.parse(mediaDataScript.textContent);
-                    openMediaModal(mediaUrls, mediaIndex);
-                }
+            const mediaDataScript = document.querySelector(`.post-media-data[data-post-id="${postId}"]`);
+            if (mediaDataScript) {
+                const mediaUrls = JSON.parse(mediaDataScript.textContent);
+                openMediaModal(mediaUrls, mediaIndex);
             }
-            // Иначе позволяем стандартное поведение (play/pause или контролы)
-        });
-    });
-    
-    // Обработка кликов на видео
-    document.querySelectorAll('.post-media-item video').forEach(video => {
-        video.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            // Определяем область кнопки play (круг в центре, примерно 60px диаметр)
-            const playButtonRadius = 30;
-            const distanceFromCenter = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-            
-            // Проверяем, находится ли клик в области контролов (нижние 40px)
-            const isControlsArea = y > rect.height - 40;
-            
-            // Если клик НЕ в области кнопки play И НЕ в области контролов - открываем галерею
-            if (distanceFromCenter > playButtonRadius && !isControlsArea) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const mediaItem = this.closest('.post-media-item');
-                const postId = mediaItem.dataset.postId;
-                const mediaIndex = parseInt(mediaItem.dataset.mediaIndex);
-                
-                const mediaDataScript = document.querySelector(`.post-media-data[data-post-id="${postId}"]`);
-                if (mediaDataScript) {
-                    const mediaUrls = JSON.parse(mediaDataScript.textContent);
-                    openMediaModal(mediaUrls, mediaIndex);
-                }
-            }
-            // Иначе позволяем стандартное поведение (play/pause или контролы)
         });
     });
     
