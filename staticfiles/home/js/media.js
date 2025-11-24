@@ -263,6 +263,7 @@ function createMediaModal() {
                 <source id="modalVideoSource" src="" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <div class="modal-thumbnails" id="modalThumbnails"></div>
         </div>
     `;
     
@@ -300,6 +301,43 @@ function updateModalContent() {
     const showNav = modalMediaList.length > 1;
     prevBtn.style.display = showNav ? 'block' : 'none';
     nextBtn.style.display = showNav ? 'block' : 'none';
+    
+    // Обновляем мини-галерею
+    updateThumbnails();
+}
+
+// Обновление мини-галереи
+function updateThumbnails() {
+    const thumbnailsContainer = document.getElementById('modalThumbnails');
+    if (!thumbnailsContainer || modalMediaList.length <= 1) {
+        if (thumbnailsContainer) thumbnailsContainer.style.display = 'none';
+        return;
+    }
+    
+    thumbnailsContainer.style.display = 'flex';
+    thumbnailsContainer.innerHTML = '';
+    
+    modalMediaList.forEach((mediaUrl, index) => {
+        const isVideo = mediaUrl.toLowerCase().includes('.mp4') || 
+                       mediaUrl.toLowerCase().includes('.avi') || 
+                       mediaUrl.toLowerCase().includes('.mov') ||
+                       mediaUrl.toLowerCase().includes('.webm');
+        
+        const thumb = document.createElement(isVideo ? 'video' : 'img');
+        thumb.className = 'modal-thumbnail';
+        if (index === currentModalIndex) thumb.classList.add('active');
+        thumb.src = mediaUrl;
+        if (isVideo) {
+            thumb.muted = true;
+            thumb.preload = 'metadata';
+        }
+        thumb.onclick = () => {
+            currentModalIndex = index;
+            updateModalContent();
+        };
+        
+        thumbnailsContainer.appendChild(thumb);
+    });
 }
 
 // Навигация в модальном окне

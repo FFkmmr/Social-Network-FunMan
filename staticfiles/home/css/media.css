@@ -219,6 +219,7 @@
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
+    margin-bottom: 3%;
 }
 
 .modal-close {
@@ -248,6 +249,7 @@
     cursor: pointer;
     border-radius: 50%;
     transition: background-color 0.3s ease;
+    user-select: none;
 }
 
 .modal-nav:hover {

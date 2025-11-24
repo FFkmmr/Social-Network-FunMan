@@ -1,3 +1,7 @@
+// ============================================================================
+// УТИЛИТЫ
+// ============================================================================
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== "") {
@@ -13,33 +17,30 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// ============================================================================
+// НАВИГАЦИЯ
+// ============================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
+    // Кнопка закрытия
     const closebtn = document.querySelector('.closebtn-index');
-    if (closebtn != null) {
-        closebtn.addEventListener('click', () => {
-            window.location.href = '../';
-        });
+    if (closebtn) {
+        closebtn.addEventListener('click', () => window.location.href = '../');
     }
 
+    // Кнопка закрытия сообщений
     const closebtnmess = document.getElementById('new_comm_btn');
-    if (closebtnmess != null) {
-        closebtnmess.addEventListener('click', () => {
-            window.location.href = '../messages';
-        });
+    if (closebtnmess) {
+        closebtnmess.addEventListener('click', () => window.location.href = '../messages');
     }
     
+    // Кнопка назад
     const backButton = document.querySelector(".circle-back-btn");
     if (backButton) {
-        backButton.addEventListener("click", () => {
-            window.location.href = "../";
-        });
+        backButton.addEventListener("click", () => window.location.href = "../");
     }
-});
 
-
-// Left panel
-document.addEventListener("DOMContentLoaded", function () {
+    // Навигация левой панели
     const routes = {
         home: "/",
         messages: "/messages/",
@@ -57,92 +58,75 @@ document.addEventListener("DOMContentLoaded", function () {
     Object.keys(routes).forEach(id => {
         const button = document.getElementById(id);
         if (button) {
-            button.addEventListener("click", function () {
-                window.location.href = routes[id];
-            });
+            button.addEventListener("click", () => window.location.href = routes[id]);
         }
     });
 });
 
+// ============================================================================
+// СОЗДАНИЕ ПОСТОВ / СООБЩЕНИЙ
+// ============================================================================
 
-    async function postBtn() {
-        const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"], textarea[name="message"], input[name="search"]');
-        const submitButtons = document.querySelectorAll('.submit-button, .style-none');
-        const mediaPreviewContainer = document.getElementById('mediaPreviewContainer');
-        const isValidImage = mediaPreviewContainer && getComputedStyle(mediaPreviewContainer).display !== 'none';
-        
-        let isValidText = false;
-        
-        // Проверяем, находимся ли мы на странице нового сообщения
-        const searchInput = document.getElementById("user-search");
-        if (searchInput) {
-            const searchValue = searchInput.value.trim();
-            
-            if (searchValue !== "") {
-                try {
-                    const response = await fetch(`/validate_recipient/?username=${encodeURIComponent(searchValue)}`);
-                    const data = await response.json();
-                    isValidText = data.valid;
-                    
-                    // Можно добавить визуальную обратную связь
-                    if (!data.valid) {
-                        console.log('Validation failed:', data.reason);
-                    }
-                } catch (error) {
-                    console.error('Error validating user:', error);
-                    isValidText = false;
-                }
+async function postBtn() {
+    const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"], textarea[name="message"], input[name="search"]');
+    const submitButtons = document.querySelectorAll('.submit-button, .style-none');
+    const mediaPreviewContainer = document.getElementById('mediaPreviewContainer');
+    const isValidImage = mediaPreviewContainer && getComputedStyle(mediaPreviewContainer).display !== 'none';
+    
+    let isValidText = false;
+    const searchInput = document.getElementById("user-search");
+    
+    if (searchInput) {
+        // Валидация для страницы новых сообщений
+        const searchValue = searchInput.value.trim();
+        if (searchValue !== "") {
+            try {
+                const response = await fetch(`/validate_recipient/?username=${encodeURIComponent(searchValue)}`);
+                const data = await response.json();
+                isValidText = data.valid;
+            } catch (error) {
+                isValidText = false;
             }
-        } else {
-            // Для других страниц используем оригинальную валидацию
-            isValidText = Array.from(textareaFields).some(textarea => textarea.value.trim() !== "");
         }
-        
-        submitButtons.forEach(button => { 
-            if (isValidText || isValidImage) {
-                button.classList.add('active');
-                button.type = 'submit';
-                console.log('Button enabled');
-                button.classList.remove('disabled');
-                if (button.classList.contains('style-none')) {
-                    button.src = '/static/home/img/paper-plane.png';
-                }
-            } else {
-                button.classList.remove('active');
-                button.type = 'button';
-                console.log('Button disabled');
-                button.classList.add('disabled');
-                if (button.classList.contains('style-none')) {
-                    button.src = '/static/home/img/paper-plane-black.png';
-                }
-            }
-        });
+    } else {
+        // Валидация для других страниц
+        isValidText = Array.from(textareaFields).some(textarea => textarea.value.trim() !== "");
     }
-// Create the post panel 
+    
+    // Обновляем состояние кнопок
+    submitButtons.forEach(button => { 
+        const isActive = isValidText || isValidImage;
+        button.classList.toggle('active', isActive);
+        button.classList.toggle('disabled', !isActive);
+        button.type = isActive ? 'submit' : 'button';
+        
+        if (button.classList.contains('style-none')) {
+            button.src = isActive ? '/static/home/img/paper-plane.png' : '/static/home/img/paper-plane-black.png';
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"], textarea[name="message"], input[name="search"]');
     const submitButtons = document.querySelectorAll('.submit-button, .style-none');
 
+    // Инициализация валидации
     if (textareaFields.length > 0) {
         window.addEventListener('load', postBtn);
-        textareaFields.forEach(textarea => {
-            textarea.addEventListener('input', postBtn);
-        });
+        textareaFields.forEach(textarea => textarea.addEventListener('input', postBtn));
     }
     
+    // Обработка отправки
     submitButtons.forEach(button => {
         button.addEventListener('click', async (e) => {
-            // Проверяем, активна ли кнопка
             if (button.classList.contains('disabled')) {
                 e.preventDefault();
                 return;
             }
 
-            // Проверяем, находимся ли мы на странице нового сообщения
             const searchInput = document.getElementById("user-search");
             if (searchInput) {
                 const searchValue = searchInput.value.trim();
-                
                 if (searchValue !== "") {
                     try {
                         const response = await fetch(`/validate_recipient/?username=${encodeURIComponent(searchValue)}`);
@@ -161,25 +145,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     e.preventDefault();
                 }
-            } else {
-                // Для других страниц используем оригинальную логику
-                if (textareaFields.length > 0) {
-                    textareaFields.forEach(textarea => {
-                        fetch('/get_users/')
-                        .then(res => res.json())
-                        .then(users => {
-                            for (const user of users) {
-                                if (textarea.value.trim() === user.username) {
-                                    window.location.href = '../new_chat/' + user.id;
-                                    break;
-                                }
-                            }   
-                        });
-                    });
-                }
             }
-        })
+        });
     });
+
+    // Поиск пользователей
     const searchInput = document.getElementById("user-search");
     const usersContainer = document.querySelector("[style*='top: 120px']");
 
@@ -196,10 +166,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (searchInput && searchInput.value !== "") {
-        filterUsers({ target: searchInput });
-    }
     if (searchInput) {
+        if (searchInput.value !== "") {
+            filterUsers({ target: searchInput });
+        }
         searchInput.addEventListener("input", async (e) => {
             await filterUsers(e);
             await postBtn();
@@ -231,15 +201,16 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
         }).join("");
     }
-    
 });
 
+// ============================================================================
+// АВТОМАТИЧЕСКАЯ ВЫСОТА TEXTAREA
+// ============================================================================
 
-// Create the post panel
 document.addEventListener('DOMContentLoaded', function () {
     const textarea = document.querySelector('textarea[name="content"]');
     
-    if (textarea != null) {
+    if (textarea) {
         function adjustHeight() {
             textarea.style.height = '80px';  
             textarea.style.height = (textarea.scrollHeight) + 'px';
@@ -249,42 +220,38 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// ============================================================================
+// ЛАЙКИ
+// ============================================================================
 
-// Likes
 document.addEventListener('DOMContentLoaded', function () {
-    const comments = document.querySelector('.comments');
-    const share = document.querySelector('.share');
     const likes = document.querySelectorAll('.like');
     
-    if (comments != null && share != null) {
     likes.forEach(like => {
         like.addEventListener('click', () => {
             const postId = like.dataset.postId;
 
             fetch(`/toggle-like/${postId}/`, {
                 method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
             })
             .then(response => response.json())
             .then(data => {
-                if (data.liked) {
-                    like.src = '/static/home/img/post/red-like.png';
-                } else {
-                    like.src = '/static/home/img/post/void-like-white.png';
-                }
-
+                like.src = data.liked 
+                    ? '/static/home/img/post/red-like.png' 
+                    : '/static/home/img/post/void-like-white.png';
+                
                 const likeCount = like.nextElementSibling;
                 likeCount.textContent = data.total_likes;
-            }).catch(error => {
-                console.error('Error:', error);
-            });
-        })
-    })
-    }
-})
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+});
 
+// ============================================================================
+// ПОДПИСКИ
+// ============================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
     const followBtn = document.querySelector(".follow-btn");
@@ -295,9 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             fetch(`/follow/${userId}/`, {
                 method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie("csrftoken"),
-                },
+                headers: { "X-CSRFToken": getCookie("csrftoken") },
             })
             .then(response => response.json())
             .then(data => {
@@ -307,48 +272,104 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// ============================================================================
+// СООБЩЕНИЯ - АВТОСКРОЛЛ
+// ============================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('/messages/')) {
         const container = document.querySelector('.messages-area');
         if (container) {
-            setTimeout(() => {
-                container.scrollTop = container.scrollHeight;
-            }, 50);
+            setTimeout(() => container.scrollTop = container.scrollHeight, 50);
         }
     }
 });
 
-function togglePostMenu(postId) {
-    const menu = document.getElementById(`menu-${postId}`);
-    document.querySelectorAll('.post-menu-dropdown').forEach(m => m.classList.remove('show'));
-    menu.classList.toggle('show');
-}
-
-function editPost(postId) {
-    document.getElementById(`menu-${postId}`).classList.remove('show');
-    alert('Редактирование будет добавлено позже');
-}
-
-function deletePost(postId) {
-    document.getElementById(`menu-${postId}`).classList.remove('show');
-    if (confirm('Удалить пост?')) {
-        fetch(`/delete_post/${postId}/`, {
-            method: 'POST',
-            headers: { 'X-CSRFToken': getCookie('csrftoken') }
-        }).then(r => r.ok && document.querySelector(`#menu-${postId}`).closest('.post-block').remove());
-    }
-}
+// ============================================================================
+// МЕНЮ ПОСТОВ (РЕДАКТИРОВАНИЕ/УДАЛЕНИЕ)
+// ============================================================================
 
 document.addEventListener('click', e => {
-    if (!e.target.closest('.post-menu')) {
+    const target = e.target;
+    
+    // Открытие/закрытие меню
+    if (target.classList.contains('post-menu-dots')) {
+        const postId = target.dataset.postId;
+        const menu = document.getElementById(`menu-${postId}`);
+        const isOpen = menu?.classList.contains('show');
+        
+        document.querySelectorAll('.post-menu-dropdown').forEach(m => m.classList.remove('show'));
+        
+        if (menu && !isOpen) menu.classList.add('show');
+        return;
+    }
+    
+    // Действия меню
+    if (target.classList.contains('post-menu-item')) {
+        const action = target.dataset.action;
+        const postId = target.dataset.postId;
+        const menu = document.getElementById(`menu-${postId}`);
+        if (menu) menu.classList.remove('show');
+        
+        if (action === 'edit') {
+            alert('Редактирование будет добавлено позже');
+        } else if (action === 'delete') {
+            showConfirm('Удалить пост?', () => {
+                fetch(`/delete_post/${postId}/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': getCookie('csrftoken') }
+                }).then(r => {
+                    if (r.ok) {
+                        const postBlock = document.getElementById(`menu-${postId}`)?.closest('.post-block');
+                        if (postBlock) postBlock.remove();
+                    }
+                });
+            });
+        }
+        return;
+    }
+    
+    // Закрытие меню при клике вне
+    if (!target.closest('.post-menu')) {
         document.querySelectorAll('.post-menu-dropdown').forEach(m => m.classList.remove('show'));
     }
 });
 
-window.togglePostMenu = togglePostMenu;
-window.editPost = editPost;
-window.deletePost = deletePost;
+// ============================================================================
+// МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ
+// ============================================================================
+
+function showConfirm(message, onConfirm) {
+    let modal = document.getElementById('confirmModal');
+    
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'confirmModal';
+        modal.className = 'confirm-modal';
+        modal.innerHTML = `
+            <div class="confirm-content">
+                <p id="confirmMessage"></p>
+                <div class="confirm-buttons">
+                    <button class="confirm-yes">Да</button>
+                    <button class="confirm-no">Отмена</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.querySelector('.confirm-no').onclick = () => modal.classList.remove('show');
+        modal.onclick = (e) => e.target === modal && modal.classList.remove('show');
+    }
+    
+    // Обновляем callback каждый раз для корректной работы с разными postId
+    modal.querySelector('.confirm-yes').onclick = () => {
+        modal.classList.remove('show');
+        onConfirm();
+    };
+    
+    document.getElementById('confirmMessage').textContent = message;
+    modal.classList.add('show');
+}
 
 
 

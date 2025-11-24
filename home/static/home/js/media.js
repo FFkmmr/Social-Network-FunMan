@@ -3,6 +3,10 @@ let selectedFiles = [];
 let currentModalIndex = 0;
 let modalMediaList = [];
 
+// Константы
+const ANIMATION_DURATION = 300;
+const VIDEO_EXTENSIONS = ['.mp4', '.mov', '.webm'];
+
 // Очистка формы после отправки
 function clearForm() {
     selectedFiles = [];
@@ -24,14 +28,21 @@ function clearForm() {
 }
 
 // Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
+function initialize() {
     initializeMediaUpload();
     if (typeof postBtn === 'function') {
         postBtn();
     }
     initializeModalHandlers();
     initializeFormSubmission();
-});
+}
+
+// Ждем полной загрузки включая стили
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize);
+} else {
+    initialize();
+}
 
 // Инициализация обработки отправки формы
 function initializeFormSubmission() {
@@ -103,17 +114,23 @@ function handleFileSelect(event) {
     }
 }
 
+// Проверка является ли файл видео по URL
+function isVideoFile(url) {
+    const lowerUrl = url.toLowerCase();
+    return VIDEO_EXTENSIONS.some(ext => lowerUrl.includes(ext));
+}
+
 // Валидация файла
 function isValidFile(file) {
     const allowedImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
-    const allowedVideoTypes = ['video/mp4', 'video/avi', 'video/mov', 'video/wmv', 'video/webm'];
+    const allowedVideoTypes = ['video/mp4', 'video/quicktime', 'video/webm'];
     
-    const maxImageSize = 5 * 1024 * 1024; // 5MB
-    const maxVideoSize = 100 * 1024 * 1024; // 100MB
+    const maxImageSize = 10 * 1024 * 1024; // 10MB
+    const maxVideoSize = 300 * 1024 * 1024; // 300MB
     
     if (allowedImageTypes.includes(file.type)) {
         if (file.size > maxImageSize) {
-            showError(`Image file "${file.name}" is too large. Maximum size is 5MB.`);
+            showError(`Image file "${file.name}" is too large. Maximum size is 10MB.`);
             return false;
         }
         return true;
@@ -121,7 +138,7 @@ function isValidFile(file) {
     
     if (allowedVideoTypes.includes(file.type)) {
         if (file.size > maxVideoSize) {
-            showError(`Video file "${file.name}" is too large. Maximum size is 100MB.`);
+            showError(`Video file "${file.name}" is too large. Maximum size is 300MB.`);
             return false;
         }
         return true;
@@ -263,6 +280,7 @@ function createMediaModal() {
                 <source id="modalVideoSource" src="" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
+            <div class="modal-thumbnails" id="modalThumbnails"></div>
         </div>
     `;
     
@@ -300,20 +318,124 @@ function updateModalContent() {
     const showNav = modalMediaList.length > 1;
     prevBtn.style.display = showNav ? 'block' : 'none';
     nextBtn.style.display = showNav ? 'block' : 'none';
+    
+    // Обновляем мини-галерею
+    updateThumbnails();
+}
+
+// Обновление мини-галереи
+function updateThumbnails() {
+    const thumbnailsContainer = document.getElementById('modalThumbnails');
+    if (!thumbnailsContainer) return;
+    
+    if (modalMediaList.length <= 1) {
+        thumbnailsContainer.style.display = 'none';
+        return;
+    }
+    
+    // Если превью уже созданы, просто обновляем активный класс
+    const existingThumbs = thumbnailsContainer.querySelectorAll('.modal-thumbnail');
+    if (existingThumbs.length === modalMediaList.length) {
+        existingThumbs.forEach((thumb, index) => {
+            if (index === currentModalIndex) {
+                thumb.classList.add('active');
+            } else {
+                thumb.classList.remove('active');
+            }
+        });
+        requestAnimationFrame(() => centerActiveThumbnail());
+        return;
+    }
+    
+    // Иначе создаём превью с нуля
+    thumbnailsContainer.style.display = 'flex';
+    thumbnailsContainer.innerHTML = '';
+    
+    // Добавляем пустые отступы для центрирования
+    const spacer = document.createElement('div');
+    spacer.style.minWidth = 'calc(50% - 30px)';
+    spacer.style.flexShrink = '0';
+    thumbnailsContainer.appendChild(spacer);
+    
+    modalMediaList.forEach((mediaUrl, index) => {
+        const isVideo = isVideoFile(mediaUrl);
+        
+        const thumb = document.createElement(isVideo ? 'video' : 'img');
+        thumb.className = 'modal-thumbnail';
+        if (index === currentModalIndex) thumb.classList.add('active');
+        thumb.src = mediaUrl;
+        if (isVideo) {
+            thumb.muted = true;
+            thumb.preload = 'metadata';
+        }
+        thumb.onclick = () => {
+            currentModalIndex = index;
+            updateModalContent();
+        };
+        
+        thumbnailsContainer.appendChild(thumb);
+    });
+    
+    // Добавляем конечный отступ
+    const spacerEnd = document.createElement('div');
+    spacerEnd.style.minWidth = 'calc(50% - 30px)';
+    spacerEnd.style.flexShrink = '0';
+    thumbnailsContainer.appendChild(spacerEnd);
+    
+    // Центрируем активное превью после отрисовки DOM
+    requestAnimationFrame(() => centerActiveThumbnail());
+}
+
+// Центрирование активного превью
+function centerActiveThumbnail() {
+    const thumbnailsContainer = document.getElementById('modalThumbnails');
+    if (!thumbnailsContainer) return;
+    
+    const activeThumbnail = thumbnailsContainer.querySelector('.modal-thumbnail.active');
+    if (!activeThumbnail) return;
+    
+    // Проверка, что элементы полностью отрисованы и стили загружены
+    const computedStyle = window.getComputedStyle(activeThumbnail);
+    if (computedStyle.width === '0px' || activeThumbnail.offsetWidth === 0) {
+        requestAnimationFrame(() => centerActiveThumbnail());
+        return;
+    }
+    
+    const containerWidth = thumbnailsContainer.offsetWidth;
+    const thumbnailLeft = activeThumbnail.offsetLeft;
+    const thumbnailWidth = activeThumbnail.offsetWidth;
+    
+    // Вычисляем позицию для центрирования
+    const targetScroll = thumbnailLeft - (containerWidth / 2) + (thumbnailWidth / 2);
+    const startScroll = thumbnailsContainer.scrollLeft;
+    const distance = targetScroll - startScroll;
+    let startTime = null;
+    
+    function animation(currentTime) {
+        if (!startTime) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / ANIMATION_DURATION, 1);
+        
+        // Easing function (easeInOutQuad)
+        const ease = progress < 0.5 
+            ? 2 * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        
+        thumbnailsContainer.scrollLeft = startScroll + (distance * ease);
+        
+        if (progress < 1) {
+            requestAnimationFrame(animation);
+        }
+    }
+    
+    requestAnimationFrame(animation);
 }
 
 // Навигация в модальном окне
 function navigateModal(direction) {
     if (modalMediaList.length <= 1) return;
     
-    currentModalIndex += direction;
-    
-    if (currentModalIndex < 0) {
-        currentModalIndex = modalMediaList.length - 1;
-    } else if (currentModalIndex >= modalMediaList.length) {
-        currentModalIndex = 0;
-    }
-    
+    currentModalIndex = (currentModalIndex + direction + modalMediaList.length) % modalMediaList.length;
     updateModalContent();
 }
 
@@ -418,7 +540,11 @@ function showError(message) {
 }
 
 // Вызываем настройку отображения медиа в постах после загрузки
-document.addEventListener('DOMContentLoaded', setupPostMediaDisplay);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupPostMediaDisplay);
+} else {
+    setupPostMediaDisplay();
+}
 
 // Также настраиваем для динамически загружаемого контента
 const observer = new MutationObserver(function(mutations) {

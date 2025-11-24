@@ -37,7 +37,10 @@ def home(request):
             if success:
                 return redirect("home")
             else:
-                form.add_error('media_files', error)
+                # Отображаем ошибку валидации файла
+                return render(request, "home/home.html", {
+                    "form": form, "posts": posts, "filter": filter_type, "error": error
+                })
     else:
         form = PostForm()
         

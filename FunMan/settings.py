@@ -146,10 +146,10 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024   # 50MB
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 
 ALLOWED_IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
-ALLOWED_VIDEO_EXTENSIONS = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm']
+ALLOWED_VIDEO_EXTENSIONS = ['.mp4', '.mov', '.webm']
 
-MAX_IMAGE_SIZE = 5 * 1024 * 1024    # 5MB
-MAX_VIDEO_SIZE = 100 * 1024 * 1024  # 100MB
+MAX_IMAGE_SIZE = 10 * 1024 * 1024    # 10MB
+MAX_VIDEO_SIZE = 300 * 1024 * 1024   # 300MB
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -64,7 +64,7 @@ class MediaFile(models.Model):
             ext = os.path.splitext(self.file.name)[1].lower()
             if ext in ['.jpg', '.jpeg', '.png', '.gif', '.webp']:
                 self.media_type = 'image'
-            elif ext in ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm']:
+            elif ext in ['.mp4', '.mov', '.webm']:
                 self.media_type = 'video'
             
             # размер файла

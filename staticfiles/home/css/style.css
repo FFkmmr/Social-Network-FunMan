@@ -405,14 +405,6 @@
   background-color: #3d3d3d;
 }
 
-
-
-
-
-
-
-
-
 .post-upside {
   display: flex;
   flex-direction: row;
@@ -432,6 +424,7 @@
   font-size: 18px;
   cursor: pointer;
   padding: 5px;
+  user-select: none;
 }
 
 .post-menu-dropdown {
@@ -444,13 +437,14 @@
   border-radius: 4px;
   min-width: 120px;
   z-index: 100;
+  user-select: none;
 }
 
 .post-menu-dropdown.show { display: block; }
 
 .post-menu-item {
   display: block;
-  width: 100%;
+  width: 80%;
   padding: 8px 12px;
   background: none;
   border: none;
@@ -462,6 +456,59 @@
 
 .post-menu-item:hover { background: #2d2d2d; }
 .post-menu-item.delete { color: #ff4444; }
+
+.confirm-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-modal.show { display: flex; }
+
+.confirm-content {
+  background: #2C2C2C;
+  border: 1px solid #404040;
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 300px;
+  text-align: center;
+}
+
+.confirm-content p {
+  color: #fff;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.confirm-buttons button {
+  padding: 8px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.confirm-yes {
+  background: #ff4444;
+  color: #fff;
+}
+
+.confirm-no {
+  background: #404040;
+  color: #fff;
+}
 
 
 

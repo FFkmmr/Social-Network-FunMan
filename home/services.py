@@ -46,9 +46,9 @@ def process_uploaded_media(post, files):
     from .models import MediaFile
     
     allowed_image_ext = ['.jpg', '.jpeg', '.png', '.gif', '.webp']
-    allowed_video_ext = ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm']
-    max_image_size = 5 * 1024 * 1024    # 5MB
-    max_video_size = 100 * 1024 * 1024  # 100MB
+    allowed_video_ext = ['.mp4', '.mov', '.webm']
+    max_image_size = 10 * 1024 * 1024    # 10MB
+    max_video_size = 300 * 1024 * 1024   # 300MB
     
     for file in files:
         # Валидация расширения файла
@@ -56,10 +56,10 @@ def process_uploaded_media(post, files):
         
         if ext in allowed_image_ext:
             if file.size > max_image_size:
-                raise ValueError(f'Image file {file.name} is too large. Maximum size is 5MB.')
+                raise ValueError(f'Image file {file.name} is too large. Maximum size is 10MB.')
         elif ext in allowed_video_ext:
             if file.size > max_video_size:
-                raise ValueError(f'Video file {file.name} is too large. Maximum size is 100MB.')
+                raise ValueError(f'Video file {file.name} is too large. Maximum size is 300MB.')
         else:
             raise ValueError(f'File type {ext} is not supported.')
         

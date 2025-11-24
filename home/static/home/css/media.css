@@ -122,12 +122,8 @@
 
 .post-media-item {
     position: relative;
-    max-height: 450px;
+    max-height: 400px;
     overflow: hidden;
-}
-
-.post-media-item.single {
-    max-height: 450px;
 }
 
 .post-media-item img {
@@ -219,6 +215,7 @@
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
+    margin-bottom: 3%;
 }
 
 .modal-close {
@@ -248,6 +245,7 @@
     cursor: pointer;
     border-radius: 50%;
     transition: background-color 0.3s ease;
+    user-select: none;
 }
 
 .modal-nav:hover {
@@ -260,6 +258,47 @@
 
 .modal-next {
     right: 20px;
+}
+
+/* Мини-галерея */
+.modal-thumbnails {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    width: 70%;
+    justify-content: flex-start;
+    z-index: 1001;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.modal-thumbnails::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-thumbnail {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 4px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease, border 0.3s ease, transform 0.3s ease;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+}
+
+.modal-thumbnail:hover {
+    opacity: 0.8;
+}
+
+.modal-thumbnail.active {
+    opacity: 1;
+    border: 2px solid #fff;
 }
 
 /* Адаптивность */
