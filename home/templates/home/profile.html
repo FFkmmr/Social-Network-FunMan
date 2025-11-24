@@ -3,6 +3,10 @@
 
 {% block title %} Bookmarks {% endblock %}
 
+{% block extra_js %}
+<script src="{% static 'home/js/media.js' %}"></script>
+{% endblock %}
+
 
 {% block center-block %}
 {% if not stranger %}

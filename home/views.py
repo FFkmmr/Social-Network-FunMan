@@ -132,31 +132,84 @@ def messages(request):
     
     return render(request, "home/messages.html", {
         'user': request.user,
-        'usersA': User.objects.all(),
+        'usersA': User.objects.exclude(id=request.user.id),
         **chat_data
     })
 
 
+@login_required
 def new_message(request):
-    return render(request, 'home/new_message.html', {'users': User.objects.all()})
+    return render(request, 'home/new_message.html', {'users': User.objects.exclude(id=request.user.id)})
 
 
+@login_required
 def filter_users(request):
     search = request.GET.get('search', '')
-    users = User.objects.filter(username__icontains=search)
+    users = User.objects.filter(username__icontains=search).exclude(id=request.user.id)
     return JsonResponse({'users': list(users.values('id', 'username'))})
 
 
+@login_required
+def validate_message_recipient(request):
+    username = request.GET.get('username', '').strip()
+    current_user = request.user
+    
+    if not username:
+        return JsonResponse({
+            'valid': False,
+            'reason': 'empty_username'
+        })
+    
+    try:
+        target_user = User.objects.get(username=username)
+        
+        # Проверяем, что пользователь не пишет сам себе
+        if target_user.id == current_user.id:
+            return JsonResponse({
+                'valid': False,
+                'reason': 'self_message'
+            })
+        
+        return JsonResponse({
+            'valid': True,
+            'user_id': target_user.id,
+            'username': target_user.username
+        })
+        
+    except User.DoesNotExist:
+        return JsonResponse({
+            'valid': False,
+            'reason': 'user_not_found'
+        })
+
+
+@login_required
 def new_chat(request, user_id):
     chat = get_or_create_chat(request.user, user_id)
     return redirect(f'/messages/?filter={chat.id}')
 
 
+@login_required
 def get_users(request):
-    users = list(User.objects.values('id', 'username'))
+    users = list(User.objects.exclude(id=request.user.id).values('id', 'username'))
     return JsonResponse(users, safe=False)
 
 
+@login_required
 def delete_chat(request, user_id):
     delete_chat_service(request.user, user_id)
     return redirect('messages')
+
+
+@login_required
+def delete_post(request, post_id):
+    if request.method == 'POST':
+        try:
+            post = Post.objects.filter(id=post_id, user=request.user).first()
+            if post:
+                post.delete()
+                return JsonResponse({'success': True})
+            return JsonResponse({'success': False, 'error': 'Not found'}, status=404)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)

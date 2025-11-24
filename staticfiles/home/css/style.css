@@ -50,24 +50,22 @@
   height: 90px;
   width: 95px;
 }
-.header {
+.fixed-header-block {
+  position: fixed;
   display: flex;
-  flex: 1;
+  width: 100%;
   height: 100%;
-  background-color: #2C2C2C;
-  justify-content: flex-end;
-  border-right: 4px solid #202020;
-  padding-left: 10px;
 }
 .home-left-block {
   display: flex;
   height: 100%;
-  width: 230px;
+  width: 228px;
   background-color: #2C2C2C;
   align-items: center;
   flex-flow: column;
   padding-right: 20px;
   user-select: none;
+  border-right: 4px solid #202020;
 }
 .nav-btn {
   all: unset;
@@ -204,11 +202,15 @@
 }
 .post_type--toggle {
   display: flex;
-  width: 100%;
+  width: 620px;
   height: 50px;
+  position: relative;
+  z-index: 1;
 }
 .post_type--toggle a,
 .post_type--toggle button {
+  backdrop-filter: blur(10px); 
+  background: rgba(40, 40, 40, 0.71);
   user-select: none;
   display: flex;
   align-items: center;
@@ -217,14 +219,13 @@
   width: 50%;
   height: 100%;
   min-height: 50px;
-  background-color: #282828;
   color: #8B8B8B;
 }
 .toggle-posts:hover {
   background-color: #363636;
 }
 .post_type--toggle .active-btn {
-  background-color: #202020;
+  background-color: #202020e5;
   color: white;
   font-weight: bold;
 }
@@ -403,10 +404,77 @@
 .content-in-the-post:hover {
   background-color: #3d3d3d;
 }
+
+
+
+
+
+
+
+
+
 .post-upside {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
+
+.post-menu {
+  position: relative;
+}
+
+.post-menu-dots {
+  background: none;
+  border: none;
+  color: #727272;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.post-menu-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: #1a1a1a;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  min-width: 120px;
+  z-index: 100;
+}
+
+.post-menu-dropdown.show { display: block; }
+
+.post-menu-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.post-menu-item:hover { background: #2d2d2d; }
+.post-menu-item.delete { color: #ff4444; }
+
+
+
+
+
+
+
+
+
+
+
+
+
 .avatar-in-post {
   height: 40px;
   width: 40px;
@@ -525,7 +593,6 @@
   flex: 1;
   height: 100%;
   background-color: #2C2C2C;
-  padding-right: 10px;
 }
 .home-right-block {
   height: 100%;
@@ -537,9 +604,7 @@
 .home-centre-block {
   position: relative;
   display: flex;
-  flex-flow: column;
-  overflow: auto;
-  overflow-x: hidden;
+  flex-direction: column;
   height: 100%;
   width: 620px;
   background-color: #2C2C2C;

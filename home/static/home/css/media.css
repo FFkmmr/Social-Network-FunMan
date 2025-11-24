@@ -90,6 +90,7 @@
 .post-media-grid.triple {
     grid-template-columns: 2fr 1fr;
     grid-template-rows: 1fr 1fr;
+    max-height: 450px;
 }
 
 .post-media-grid.triple .post-media-item:first-child {
@@ -101,14 +102,32 @@
     grid-template-rows: 1fr 1fr;
 }
 
+.post-media-grid.single img {
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+    border-radius: 12px;
+}
+
+.post-media-grid.double img,
+.post-media-grid.triple img,
+.post-media-grid.multiple img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+}
+
 .post-media-item {
     position: relative;
-    max-height: 400px;
+    max-height: 450px;
     overflow: hidden;
 }
 
 .post-media-item.single {
-    max-height: 500px;
+    max-height: 450px;
 }
 
 .post-media-item img {
@@ -200,15 +219,14 @@
     max-width: 90%;
     max-height: 90%;
     object-fit: contain;
-    border-radius: 8px;
 }
 
 .modal-close {
     position: absolute;
     top: 20px;
-    right: 30px;
+    left: 30px;
     color: #fff;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 500;
     cursor: pointer;
     z-index: 1001;

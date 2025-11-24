@@ -11,19 +11,24 @@ function clearForm() {
         mediaInput.value = '';
     }
     updateMediaPreview();
-    updatePostButton();
     
     // Очищаем текстовое поле
     const contentInput = document.querySelector('.custom-input');
     if (contentInput) {
         contentInput.value = '';
     }
+
+    if (typeof postBtn === 'function') {
+        postBtn();
+    }
 }
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     initializeMediaUpload();
-    initializePostValidation();
+    if (typeof postBtn === 'function') {
+        postBtn();
+    }
     initializeModalHandlers();
     initializeFormSubmission();
 });
@@ -91,8 +96,11 @@ function handleFileSelect(event) {
     });
     
     updateMediaPreview();
-    updatePostButton();
     updateFileInput(); // Синхронизируем input с массивом файлов
+    
+    if (typeof postBtn === 'function') {
+        postBtn();
+    }
 }
 
 // Валидация файла
@@ -142,6 +150,8 @@ function updateMediaPreview() {
         const previewItem = createPreviewItem(file, index);
         preview.appendChild(previewItem);
     });
+
+    postBtn();
 }
 
 // Создание элемента превью
@@ -162,6 +172,7 @@ function createPreviewItem(file, index) {
     }
     
     const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
     removeBtn.className = 'remove-media-btn';
     removeBtn.innerHTML = '×';
     removeBtn.onclick = () => removeFile(index);
@@ -177,7 +188,10 @@ function removeFile(index) {
     selectedFiles.splice(index, 1);
     updateFileInput();
     updateMediaPreview();
-    updatePostButton();
+    
+    if (typeof postBtn === 'function') {
+        postBtn();
+    }
 }
 
 // Обновление input файлов
@@ -188,36 +202,6 @@ function updateFileInput() {
     const dt = new DataTransfer();
     selectedFiles.forEach(file => dt.items.add(file));
     mediaInput.files = dt.files;
-}
-
-// Валидация кнопки поста
-function initializePostValidation() {
-    const contentInput = document.querySelector('.custom-input');
-    const postButton = document.getElementById('postButton');
-    
-    if (contentInput && postButton) {
-        contentInput.addEventListener('input', updatePostButton);
-        updatePostButton(); // Начальная проверка
-    }
-}
-
-// Обновление состояния кнопки поста
-function updatePostButton() {
-    const contentInput = document.querySelector('.custom-input');
-    const postButton = document.getElementById('postButton');
-    
-    if (!contentInput || !postButton) return;
-    
-    const hasContent = contentInput.value.trim().length > 0;
-    // Теперь текст обязателен, медиа - опционально
-    
-    if (hasContent) {
-        postButton.disabled = false;
-        postButton.classList.add('has-content');
-    } else {
-        postButton.disabled = true;
-        postButton.classList.remove('has-content');
-    }
 }
 
 // Инициализация модальных окон

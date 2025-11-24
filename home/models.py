@@ -18,7 +18,7 @@ def get_media_upload_path(instance, filename):
 class Post(models.Model):
     slug = models.SlugField(max_length=400, unique=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(blank=True, default="")
     tags = TaggableManager(blank=True)
     date = models.DateTimeField(default=timezone.now, blank=True, null=True)
     likes = models.ManyToManyField(User, related_name="liked_posts", blank=True)

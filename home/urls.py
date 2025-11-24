@@ -18,4 +18,6 @@ urlpatterns = [
     path('new_chat/<int:user_id>', views.new_chat, name='new_chat'),
     path('get_users/', views.get_users, name='get_users'),
     path('delete_chat/<int:user_id>', views.delete_chat, name='delete_chat'),
+    path('validate_recipient/', views.validate_message_recipient, name='validate_recipient'),
+    path('delete_post/<int:post_id>/', views.delete_post, name='delete_post'),
 ]

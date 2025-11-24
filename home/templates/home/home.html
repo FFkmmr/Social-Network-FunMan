@@ -20,10 +20,11 @@
 
 {% block center-block %}
 <div class="home-centre-block">
-    <div class="post_type--toggle">
+    <div class="post_type--toggle" style="position: fixed;">
         <a href="?filter=for_u" class="toggle-posts {% if filter == 'for_u' %}active-btn{% endif %}" id="for_u">For You</a>
         <a href="?filter=following" class="toggle-posts {% if filter == 'following' %}active-btn{% endif %}" id="following">Following</a>
     </div>
+    <div style="min-height: 50px;"></div>
     
     <div class="centre-post-create">
         <form method="POST" enctype="multipart/form-data">
@@ -40,15 +41,17 @@
             </div>
             <div class="second-part-ofpostcre">
                 <div class="additional-bar">
+
                     <img src="{% static 'home/img/gallery-ico.png' %}" alt="" id="galleryBtn" class="gallery-btn" onclick="document.getElementById('mediaInput').click();">
+                    <input type="file" name="media_files" id="mediaInput" multiple accept="image/*,video/*" style="display: none;">
+
                     <img src="{% static 'home/img/emoji-ico.png' %}" alt="">
                     <img src="{% static 'home/img/gif-ico.png' %}" alt="">
                     <img src="{% static 'home/img/calendar-ico.png' %}" alt="">
 
-                    <input type="file" name="media_files" id="mediaInput" multiple accept="image/*,video/*" style="display: none;">
                     {{ form.tags }}
                 </div>
-                <button type="submit" class="submit-button" id="postButton">Post</button>
+                <button type="submit" class="submit-button disabled" id="postButton">Post</button>
             </div>
         </form>
     </div>

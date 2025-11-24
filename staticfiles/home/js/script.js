@@ -65,6 +65,59 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+    async function postBtn() {
+        const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"], textarea[name="message"], input[name="search"]');
+        const submitButtons = document.querySelectorAll('.submit-button, .style-none');
+        const mediaPreviewContainer = document.getElementById('mediaPreviewContainer');
+        const isValidImage = mediaPreviewContainer && getComputedStyle(mediaPreviewContainer).display !== 'none';
+        
+        let isValidText = false;
+        
+        // Проверяем, находимся ли мы на странице нового сообщения
+        const searchInput = document.getElementById("user-search");
+        if (searchInput) {
+            const searchValue = searchInput.value.trim();
+            
+            if (searchValue !== "") {
+                try {
+                    const response = await fetch(`/validate_recipient/?username=${encodeURIComponent(searchValue)}`);
+                    const data = await response.json();
+                    isValidText = data.valid;
+                    
+                    // Можно добавить визуальную обратную связь
+                    if (!data.valid) {
+                        console.log('Validation failed:', data.reason);
+                    }
+                } catch (error) {
+                    console.error('Error validating user:', error);
+                    isValidText = false;
+                }
+            }
+        } else {
+            // Для других страниц используем оригинальную валидацию
+            isValidText = Array.from(textareaFields).some(textarea => textarea.value.trim() !== "");
+        }
+        
+        submitButtons.forEach(button => { 
+            if (isValidText || isValidImage) {
+                button.classList.add('active');
+                button.type = 'submit';
+                console.log('Button enabled');
+                button.classList.remove('disabled');
+                if (button.classList.contains('style-none')) {
+                    button.src = '/static/home/img/paper-plane.png';
+                }
+            } else {
+                button.classList.remove('active');
+                button.type = 'button';
+                console.log('Button disabled');
+                button.classList.add('disabled');
+                if (button.classList.contains('style-none')) {
+                    button.src = '/static/home/img/paper-plane-black.png';
+                }
+            }
+        });
+    }
 // Create the post panel 
 document.addEventListener('DOMContentLoaded', function () {
     const textareaFields = document.querySelectorAll('textarea[name="body"], textarea[name="content"], textarea[name="message"], input[name="search"]');
@@ -77,62 +130,81 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     
-    function postBtn() {
-        const isValid = Array.from(textareaFields).some(textarea => textarea.value.trim() !== "");
-        
-        submitButtons.forEach(button => { 
-            if (isValid) {
-                button.removeAttribute('disabled');
-                button.classList.add('active');
-                if (button.classList.contains('style-none')) {
-                    button.src = '/static/home/img/paper-plane.png';
+    submitButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            // Проверяем, активна ли кнопка
+            if (button.classList.contains('disabled')) {
+                e.preventDefault();
+                return;
+            }
+
+            // Проверяем, находимся ли мы на странице нового сообщения
+            const searchInput = document.getElementById("user-search");
+            if (searchInput) {
+                const searchValue = searchInput.value.trim();
+                
+                if (searchValue !== "") {
+                    try {
+                        const response = await fetch(`/validate_recipient/?username=${encodeURIComponent(searchValue)}`);
+                        const data = await response.json();
+                        
+                        if (data.valid) {
+                            window.location.href = '../new_chat/' + data.user_id;
+                        } else {
+                            e.preventDefault();
+                            console.log('Cannot create chat:', data.reason);
+                        }
+                    } catch (error) {
+                        console.error('Error validating user:', error);
+                        e.preventDefault();
+                    }
+                } else {
+                    e.preventDefault();
                 }
             } else {
-                button.setAttribute('disabled', true);
-                button.classList.remove('active');
-                if (button.classList.contains('style-none')) {
-                    button.src = '/static/home/img/paper-plane-black.png';
-                }
-            }
-        });
-    }
-    submitButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            if (textareaFields.length > 0) {
-                textareaFields.forEach(textarea => {
-                    fetch('/get_users/')
-                    .then(res => res.json())
-                    .then(users => {
-                        for (const user of users) {
-                            if (textarea.value.trim() === user.username) {
-                                window.location.href = '../new_chat/' + user.id;
-                                break;
-                            }
-                        }   
+                // Для других страниц используем оригинальную логику
+                if (textareaFields.length > 0) {
+                    textareaFields.forEach(textarea => {
+                        fetch('/get_users/')
+                        .then(res => res.json())
+                        .then(users => {
+                            for (const user of users) {
+                                if (textarea.value.trim() === user.username) {
+                                    window.location.href = '../new_chat/' + user.id;
+                                    break;
+                                }
+                            }   
+                        });
                     });
-                });
+                }
             }
         })
     });
     const searchInput = document.getElementById("user-search");
     const usersContainer = document.querySelector("[style*='top: 120px']");
 
-    usersContainer.addEventListener("click", (e) => {
-        const userSelect = e.target.closest(".user-select");
-        if (!userSelect) return;
+    if (usersContainer) {
+        usersContainer.addEventListener("click", async (e) => {
+            const userSelect = e.target.closest(".user-select");
+            if (!userSelect) return;
 
-        const userNameElement = userSelect.querySelector(".user-select-name");
-        if (userNameElement) {
-            searchInput.value = userNameElement.textContent.trim();
-            postBtn();
-        }
-    });
-
-    if (searchInput.value !== "") {
-        filterUsers({ target: searchInput });
+            const userNameElement = userSelect.querySelector(".user-select-name");
+            if (userNameElement) {
+                searchInput.value = userNameElement.textContent.trim();
+                await postBtn();
+            }
+        });
     }
 
-    searchInput.addEventListener("input", filterUsers);
+    if (searchInput && searchInput.value !== "") {
+        filterUsers({ target: searchInput });
+    }
+    if (searchInput) {
+        searchInput.addEventListener("input", async (e) => {
+            await filterUsers(e);
+            await postBtn();
+        });
+    }
 
     async function filterUsers(e) {
         const response = await fetch(`/filter_users/?search=${encodeURIComponent(e.target.value)}`);
@@ -246,6 +318,37 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+function togglePostMenu(postId) {
+    const menu = document.getElementById(`menu-${postId}`);
+    document.querySelectorAll('.post-menu-dropdown').forEach(m => m.classList.remove('show'));
+    menu.classList.toggle('show');
+}
+
+function editPost(postId) {
+    document.getElementById(`menu-${postId}`).classList.remove('show');
+    alert('Редактирование будет добавлено позже');
+}
+
+function deletePost(postId) {
+    document.getElementById(`menu-${postId}`).classList.remove('show');
+    if (confirm('Удалить пост?')) {
+        fetch(`/delete_post/${postId}/`, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': getCookie('csrftoken') }
+        }).then(r => r.ok && document.querySelector(`#menu-${postId}`).closest('.post-block').remove());
+    }
+}
+
+document.addEventListener('click', e => {
+    if (!e.target.closest('.post-menu')) {
+        document.querySelectorAll('.post-menu-dropdown').forEach(m => m.classList.remove('show'));
+    }
+});
+
+window.togglePostMenu = togglePostMenu;
+window.editPost = editPost;
+window.deletePost = deletePost;
 
 
 

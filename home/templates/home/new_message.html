@@ -10,7 +10,7 @@
                 <img src="{% static 'authorization/img/close-button.png' %}" alt="">
             </button>
             <p>New message</p>
-            <button type="submit" class="submit-button" disabled>Next</button>
+            <button type="submit" class="submit-button" id="new-message-btn">Next</button>
         </div>
         <search>
             <form method="get" 
@@ -37,7 +37,7 @@
                     <div class="content-in-the-post" style="height: fit-content; min-height: 70px; overflow: hidden;">
                         <img class="avatar-in-post" src="{% static 'home/img/camera.png' %}" alt="avatar">      
                         <div class="post-content" style="height: fit-content;">
-                            <div class="post-upside">
+                            <div style="    display: flex; flex-direction: row;">
                                 <div class="name-user-date">
                                     <a href="{% url 'stranger_profile' user.id %}" class="user-select-name">{{ user }}<a>
                                     <p>@{{ user.id|stringformat:"04d" }}</p>

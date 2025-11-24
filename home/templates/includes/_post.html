@@ -13,6 +13,15 @@
                         <h5 style="font-size: 12px;">.</h5>
                         {{ post.get_time_since  }}
                     </div>
+                    {% if user == post.user %}
+                    <div class="post-menu">
+                        <button class="post-menu-dots" data-post-id="{{ post.id }}">⋮</button>
+                        <div class="post-menu-dropdown" id="menu-{{ post.id }}">
+                            <button class="post-menu-item" data-action="edit" data-post-id="{{ post.id }}">Редактировать</button>
+                            <button class="post-menu-item delete" data-action="delete" data-post-id="{{ post.id }}">Удалить</button>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
                 
                 {% if post.content %}

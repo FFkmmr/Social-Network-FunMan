@@ -23,6 +23,7 @@
                 top: 16%;">Drop a line, share posts and more with private conversations between you and others on FM.</p>
                 <a href="{% url 'new_message' %}" class="messages-button" style="position:relative; top: 19%;">Write a message</a>
             </div>
+            <div style="width: 354px;"></div>
         {% else %}
             <div class="home-centre-block" style="width: 266px;">
                 <div class="center-back-line" style="background-color: transparent; margin-bottom: 0;">    
@@ -39,10 +40,11 @@
                     {% include "includes/chats.html" with chats_with_parters=chats_with_partners %} 
                 </div>
             </div>
-            <div></div>
+            <div style="width: 354px;"></div>
         {% endif %}
 {% endblock %}
 {% block right-block %}
+        <div style="width: 266px; height: 0;"></div>
         {% if not user.chats.all %}
             <div class="home-right-block" style="border-right: 4px solid #202020; width: 594px; padding-left: 100px;">
                 <h2 style="position: relative;color: white; top: 35%;">Select a message</h2>

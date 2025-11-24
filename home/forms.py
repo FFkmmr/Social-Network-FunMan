@@ -3,7 +3,9 @@ from .models import Post, Comment
 from taggit.forms import TagField
 
 class PostForm(forms.ModelForm):
-    content = forms.CharField(widget=forms.Textarea(attrs={
+    content = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={
         'placeholder': 'Let\'s type something',
         'title': 'Content',
         'class': 'custom-input',
